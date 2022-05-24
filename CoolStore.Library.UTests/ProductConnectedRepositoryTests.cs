@@ -1,5 +1,4 @@
-﻿using CoolStore.Library.Models;
-using CoolStore.Library.Repositotories;
+﻿using CoolStore.Library.Repositotories;
 using System.Data;
 
 namespace CoolStore.Library.UTests

@@ -22,11 +22,11 @@ namespace CoolStore.Library.SqlData
             sqlCommand.CommandText = command;
             sqlCommand.CommandType = commandType;
 
-            if(dataParametrs is not null)
+            if (dataParametrs is not null)
             {
-                foreach(var param in dataParametrs)
+                foreach (var param in dataParametrs)
                 {
-                    if(param is null)
+                    if (param is null)
                     {
                         throw new ArgumentNullException(nameof(dataParametrs));
                     }
@@ -35,7 +35,7 @@ namespace CoolStore.Library.SqlData
                 }
             }
 
-            return sqlCommand;        
+            return sqlCommand;
         }
 
         public IDbConnection GetConnection(string connectionString)

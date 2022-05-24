@@ -16,7 +16,7 @@ namespace CoolStore.Library.Helpers
             {
                 throw new ArgumentNullException(nameof(reader));
             }
-            
+
             return new Product(
                 reader.GetInt32(0),
                 reader.GetString(1),

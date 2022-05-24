@@ -27,7 +27,7 @@ namespace CoolStore.Library.SqlData
                     {
                         try
                         {
-                            if(reader.Read())
+                            if (reader.Read())
                             {
                                 return map(reader);
                             }
@@ -65,7 +65,7 @@ namespace CoolStore.Library.SqlData
                     {
                         try
                         {
-                            while(reader.Read())
+                            while (reader.Read())
                             {
                                 result.Add(map(reader));
                             }
