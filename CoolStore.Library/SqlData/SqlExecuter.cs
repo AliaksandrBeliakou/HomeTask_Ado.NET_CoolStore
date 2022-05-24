@@ -15,7 +15,7 @@ namespace CoolStore.Library.SqlData
             this.actorBuilder = actorBuilder ?? throw new ArgumentNullException(nameof(actorBuilder));
         }
 
-        public TEntity GetSingleRow<TEntity>(string sqlCommand, IEnumerable<SqlParameter> sqlParametersparams, Func<IDataReader, TEntity> map)
+        public TEntity GetSingleRow<TEntity>(string sqlCommand, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
         {
             using (var connection = this.actorBuilder.GetConnection(connectionString))
             {
@@ -27,7 +27,7 @@ namespace CoolStore.Library.SqlData
                     {
                         try
                         {
-                            if (reader.Read())
+                            if(reader.Read())
                             {
                                 return map(reader);
                             }
@@ -50,6 +50,39 @@ namespace CoolStore.Library.SqlData
                     connection.Close();
                 }
             }
+        }
+
+        public IEnumerable<TEntity> Get<TEntity>(string sqlCommand, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
+        {
+            var result = new List<TEntity>();
+            using (var connection = this.actorBuilder.GetConnection(connectionString))
+            {
+                var command = this.actorBuilder.GetCommand(connection, sqlCommand, CommandType.Text, sqlParametersparams);
+                try
+                {
+                    connection.Open();
+                    using (var reader = this.actorBuilder.GetDataReader(command))
+                    {
+                        try
+                        {
+                            while(reader.Read())
+                            {
+                                result.Add(map(reader));
+                            }
+                        }
+                        finally
+                        {
+                            reader.Close();
+                        }
+                    }
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return result;
         }
     }
 }

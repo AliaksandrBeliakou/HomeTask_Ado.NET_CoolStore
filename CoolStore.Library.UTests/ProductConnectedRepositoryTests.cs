@@ -35,7 +35,7 @@ namespace CoolStore.Library.UTests
         public void GetAll_VeryBigId_DataException()
         {
             // Asset
-            var mockReader = Mocks.ReaderWhitoutProduct;
+            var mockReader = Mocks.ReaderOfProductList;
             var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockReader.Object);
             var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
             // Act

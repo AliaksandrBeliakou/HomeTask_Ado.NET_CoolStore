@@ -31,13 +31,13 @@ namespace CoolStore.Library.Repositotories
 
         public IEnumerable<Product> GetAll()
         {
-            throw new NotImplementedException();
+            return this.executer.Get("SELECT * FROM [dbo].[Products]", null, Mapper.GetProduct);
         }
 
         public Product GetById(int id)
         {
             var sqlParameters = new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = id }.ToEnumerable();
-            return this.executer.GetSingleRow<Product>("SELECT * FROM [dbo].[Products] WHERE Id = @Id", sqlParameters, Mapper.GetProduct);
+            return this.executer.GetSingleRow("SELECT * FROM [dbo].[Products] WHERE Id = @Id", sqlParameters, Mapper.GetProduct);
         }
 
         public void Update(Product product)
