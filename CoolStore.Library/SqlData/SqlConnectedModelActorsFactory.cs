@@ -6,7 +6,7 @@ namespace CoolStore.Library.SqlData
 {
     public class SqlConnectedModelActorsFactory : IConnectedDbActorsFactory
     {
-        public IDbCommand GetCommand(IDbConnection connection, string command, CommandType commandType, IEnumerable<IDbDataParameter> dataParametrs)
+        public IDbCommand GetCommand(IDbConnection connection, string command, CommandType commandType, IEnumerable<IDbDataParameter>? dataParametrs)
         {
             if (command is null)
             {

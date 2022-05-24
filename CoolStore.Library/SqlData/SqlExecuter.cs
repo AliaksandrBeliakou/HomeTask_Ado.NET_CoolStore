@@ -32,12 +32,21 @@ namespace CoolStore.Library.SqlData
                                 return map(reader);
                             }
 
-                            var errorText = new StringBuilder("Data in '")
-                                .Append(sqlCommand).Append("' request with '")
-                                .Append(string.Join(", ", sqlParametersparams.Select(x => $"{x.ParameterName} = {x.Value}")))
-                                .Append("' parameters is not found")
-                                .ToString();
-                            throw new DataException(errorText);
+                            var errorTextBuilder = new StringBuilder("Data in '")
+                                .Append(sqlCommand).Append("' request ");
+                            if (sqlParametersparams is null)
+                            {
+                                errorTextBuilder.Append("without ");
+                            }
+                            else
+                            {
+                                errorTextBuilder.Append("with '")
+                                    .Append(string.Join(", ", sqlParametersparams.Select(x => $"{x.ParameterName} = {x.Value}")))
+                                    .Append("' ");
+                            }
+                            
+                            errorTextBuilder.Append("parameters is not found");
+                            throw new DataException(errorTextBuilder.ToString());
                         }
                         finally
                         {
