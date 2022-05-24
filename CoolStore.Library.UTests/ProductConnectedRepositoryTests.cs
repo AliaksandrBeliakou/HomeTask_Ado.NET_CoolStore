@@ -1,6 +1,5 @@
 ﻿using CoolStore.Library.Models;
 using CoolStore.Library.Repositotories;
-using CoolStore.Library.SqlData;
 using System.Data;
 
 namespace CoolStore.Library.UTests
@@ -12,7 +11,9 @@ namespace CoolStore.Library.UTests
         public void GetById_VeryBigId_DataException()
         {
             // Asset
-            var repo = new ProductConnectedRepository(Env.ConnectionString, new SqlConnectedModelActorsFactory());
+            var mockReader = Mocks.ReaderWhitoutProduct;
+            var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockReader.Object);
+            var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
             // Act, Assert
             Assert.Throws<DataException>(() => _ = repo.GetById(int.MaxValue));
         }
@@ -21,7 +22,9 @@ namespace CoolStore.Library.UTests
         public void GetById_One_CorrectData()
         {
             // Asset
-            var repo = new ProductConnectedRepository(Env.ConnectionString, new SqlConnectedModelActorsFactory());
+            var mockReader = Mocks.ReaderOfSingleProduct;
+            var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockReader.Object);
+            var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
             // Act
             var product = repo.GetById(1);
             // Assert
