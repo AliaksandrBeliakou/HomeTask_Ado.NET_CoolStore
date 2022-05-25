@@ -15,44 +15,78 @@ namespace CoolStore.Library.SqlData
             this.actorBuilder = actorBuilder ?? throw new ArgumentNullException(nameof(actorBuilder));
         }
 
-        public TEntity GetSingleRow<TEntity>(string sqlCommand, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
+        public TEntity GetSingle<TEntity>(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
+        {
+            TEntity? result = default;
+            this.ConnectCreateReaderAndAct(sqlCommand, commandType, sqlParametersparams, reader =>
+            {
+                if (reader.Read())
+                {
+                    result = map(reader);
+                }
+            });
+            if (result is null)
+            {
+                var errorTextBuilder = new StringBuilder("Data in '")
+                    .Append(sqlCommand).Append("' request ");
+                if (sqlParametersparams is null)
+                {
+                    errorTextBuilder.Append("without ");
+                }
+                else
+                {
+                    errorTextBuilder.Append("with '")
+                        .Append(string.Join(", ", sqlParametersparams.Select(x => $"{x.ParameterName} = {x.Value}")))
+                        .Append("' ");
+                }
+
+                errorTextBuilder.Append("parameters is not found");
+                throw new DataException(errorTextBuilder.ToString());
+            }
+            return result;
+        }
+
+        public IEnumerable<TEntity> GetList<TEntity>(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
+        {
+            var result = new List<TEntity>();
+            this.ConnectCreateReaderAndAct(sqlCommand, commandType, sqlParametersparams, reader =>
+            {
+                while (reader.Read())
+                {
+                    result.Add(map(reader));
+                }
+            });
+
+            return result;
+        }
+
+        public TResult? GetScalar<TEntity, TResult>(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
+        {
+            object? result = default;
+            ConnectAndAct(sqlCommand, commandType, sqlParametersparams, command =>
+            {
+                result = command.ExecuteScalar();
+            });
+
+            return (TResult?)result;
+        }
+        public void GetNothing(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams)
+        {
+            ConnectAndAct(sqlCommand, commandType, sqlParametersparams, command =>
+            {
+                command.ExecuteNonQuery();
+            });
+        }
+
+        private void ConnectAndAct(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Action<IDbCommand> action)
         {
             using (var connection = this.actorBuilder.GetConnection(connectionString))
             {
-                var command = this.actorBuilder.GetCommand(connection, sqlCommand, CommandType.Text, sqlParametersparams);
+                var command = this.actorBuilder.GetCommand(connection, sqlCommand, commandType, sqlParametersparams);
                 try
                 {
                     connection.Open();
-                    using (var reader = this.actorBuilder.GetDataReader(command))
-                    {
-                        try
-                        {
-                            if (reader.Read())
-                            {
-                                return map(reader);
-                            }
-
-                            var errorTextBuilder = new StringBuilder("Data in '")
-                                .Append(sqlCommand).Append("' request ");
-                            if (sqlParametersparams is null)
-                            {
-                                errorTextBuilder.Append("without ");
-                            }
-                            else
-                            {
-                                errorTextBuilder.Append("with '")
-                                    .Append(string.Join(", ", sqlParametersparams.Select(x => $"{x.ParameterName} = {x.Value}")))
-                                    .Append("' ");
-                            }
-                            
-                            errorTextBuilder.Append("parameters is not found");
-                            throw new DataException(errorTextBuilder.ToString());
-                        }
-                        finally
-                        {
-                            reader.Close();
-                        }
-                    }
+                    action(command);
                 }
                 finally
                 {
@@ -61,37 +95,22 @@ namespace CoolStore.Library.SqlData
             }
         }
 
-        public IEnumerable<TEntity> Get<TEntity>(string sqlCommand, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
+        private void ConnectCreateReaderAndAct(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Action<IDataReader> action)
         {
-            var result = new List<TEntity>();
-            using (var connection = this.actorBuilder.GetConnection(connectionString))
+            ConnectAndAct(sqlCommand, commandType, sqlParametersparams, command =>
             {
-                var command = this.actorBuilder.GetCommand(connection, sqlCommand, CommandType.Text, sqlParametersparams);
-                try
+                using (var reader = this.actorBuilder.GetDataReader(command))
                 {
-                    connection.Open();
-                    using (var reader = this.actorBuilder.GetDataReader(command))
+                    try
                     {
-                        try
-                        {
-                            while (reader.Read())
-                            {
-                                result.Add(map(reader));
-                            }
-                        }
-                        finally
-                        {
-                            reader.Close();
-                        }
+                        action(reader);
+                    }
+                    finally
+                    {
+                        reader.Close();
                     }
                 }
-                finally
-                {
-                    connection.Close();
-                }
-            }
-
-            return result;
+            });
         }
     }
 }

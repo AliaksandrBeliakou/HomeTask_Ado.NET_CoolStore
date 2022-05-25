@@ -21,7 +21,8 @@ namespace CoolStore.Library.Repositotories
 
         public void Create(Product product)
         {
-            throw new NotImplementedException();
+            var sqlParameters = GetSqlParametersFromProduct(product, false);
+            //this.executer.Push("INSERT INTO [dbo].[Products] VALUES(@Name, @Description, @Weight, @Height, @Width, @Length)", sqlParameters, Mapper.GetProduct);
         }
 
         public void Delete(Product product)
@@ -31,18 +32,37 @@ namespace CoolStore.Library.Repositotories
 
         public IEnumerable<Product> GetAll()
         {
-            return this.executer.Get("SELECT * FROM [dbo].[Products]", null, Mapper.GetProduct);
+            return this.executer.GetList("SELECT * FROM [dbo].[Products]", CommandType.Text, null, Mapper.GetProduct);
         }
 
         public Product GetById(int id)
         {
             var sqlParameters = new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = id }.ToEnumerable();
-            return this.executer.GetSingleRow("SELECT * FROM [dbo].[Products] WHERE Id = @Id", sqlParameters, Mapper.GetProduct);
+            return this.executer.GetSingle("SELECT * FROM [dbo].[Products] WHERE Id = @Id", CommandType.Text, sqlParameters, Mapper.GetProduct);
         }
 
         public void Update(Product product)
         {
             throw new NotImplementedException();
+        }
+
+        private static IEnumerable<SqlParameter> GetSqlParametersFromProduct(Product product, bool withIdFlaf)
+        {
+            var result = new List<SqlParameter>
+            {
+                new SqlParameter { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Size = 128, Value = product.Name },
+                new SqlParameter { ParameterName = "@Description", SqlDbType = SqlDbType.Text, Value = product.Description },
+                new SqlParameter { ParameterName = "@Weight", SqlDbType = SqlDbType.Int, Value = product.Weight },
+                new SqlParameter { ParameterName = "@Height", SqlDbType = SqlDbType.Int, Value = product.Height },
+                new SqlParameter { ParameterName = "@Width", SqlDbType = SqlDbType.Int, Value = product.Width },
+                new SqlParameter { ParameterName = "@Length", SqlDbType = SqlDbType.Int, Value = product.Length },
+            };
+            if (withIdFlaf)
+            {
+                result.Add(new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = product.Id });
+            }
+
+            return result;
         }
     }
 }
