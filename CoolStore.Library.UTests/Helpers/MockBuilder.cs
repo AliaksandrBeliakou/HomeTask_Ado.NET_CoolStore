@@ -58,8 +58,8 @@ namespace CoolStore.Library.UTests.Helpers
                 moqObject.SetupSequence(m => m.Read()).Returns(true).Returns(false);
                 moqObject.Setup(m => m.GetInt32(0)).Returns(StabBuilder.Order1.Id);
                 moqObject.Setup(m => m.GetString(1)).Returns(StabBuilder.Order1.Status.ToString());
-                moqObject.Setup(m => m.GetDateTime(2)).Returns(StabBuilder.Order1.CreatedDate);
-                moqObject.Setup(m => m.GetDateTime(3)).Returns(StabBuilder.Order1.UpdatedDate);
+                moqObject.Setup(m => m.GetDateTime(2)).Returns(StabBuilder.Order1.CreateDate);
+                moqObject.Setup(m => m.GetDateTime(3)).Returns(StabBuilder.Order1.UpdateDate);
                 moqObject.Setup(m => m.GetInt32(4)).Returns(StabBuilder.Order1.ProductId);
                 return moqObject;
             }
@@ -74,8 +74,8 @@ namespace CoolStore.Library.UTests.Helpers
                 moqObject.SetupSequence(m => m.Read()).Returns(true).Returns(true).Returns(false);
                 moqObject.SetupSequence(m => m.GetInt32(0)).Returns(StabBuilder.Order1.Id).Returns(StabBuilder.Order2.Id);
                 moqObject.SetupSequence(m => m.GetString(1)).Returns(StabBuilder.Order1.Status.ToString()).Returns(StabBuilder.Order2.Status.ToString());
-                moqObject.SetupSequence(m => m.GetDateTime(2)).Returns(StabBuilder.Order1.CreatedDate).Returns(StabBuilder.Order2.CreatedDate);
-                moqObject.SetupSequence(m => m.GetDateTime(3)).Returns(StabBuilder.Order1.UpdatedDate).Returns(StabBuilder.Order2.UpdatedDate);
+                moqObject.SetupSequence(m => m.GetDateTime(2)).Returns(StabBuilder.Order1.CreateDate).Returns(StabBuilder.Order2.CreateDate);
+                moqObject.SetupSequence(m => m.GetDateTime(3)).Returns(StabBuilder.Order1.UpdateDate).Returns(StabBuilder.Order2.UpdateDate);
                 moqObject.SetupSequence(m => m.GetInt32(4)).Returns(StabBuilder.Order1.ProductId).Returns(StabBuilder.Order2.ProductId);
                 return moqObject;
             }

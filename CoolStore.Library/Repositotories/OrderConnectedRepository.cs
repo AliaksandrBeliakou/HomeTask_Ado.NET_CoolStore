@@ -2,6 +2,8 @@
 using CoolStore.Library.Models;
 using CoolStore.Library.SqlData;
 using CoolStore.Library.SqlData.Interfaces;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace CoolStore.Library.Repositotories
 {
@@ -16,14 +18,17 @@ namespace CoolStore.Library.Repositotories
                 factory ?? throw new ArgumentNullException(nameof(factory)));
         }
 
-        public void Create(Order product)
+        public void Create(Order order)
         {
-            throw new NotImplementedException();
+            var sqlParameters = GetSqlParametersFromOrder(order, false);
+            this.executer.GetNothing("INSERT INTO [dbo].[Orders] VALUES(@Status, @CreateDate, @UpdateDate, @ProductId)", 
+                CommandType.Text, sqlParameters);
         }
 
-        public void Delete(Order product)
+        public void Delete(Order order)
         {
-            throw new NotImplementedException();
+            var parameters = new List<SqlParameter> { new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = order.Id } };
+            this.executer.GetNothing("DELETE FROM [dbo].[Orders] WHERE Id = @Id", CommandType.Text, parameters);
         }
 
         public void Delete(OrderFilterModel filter)
@@ -41,9 +46,26 @@ namespace CoolStore.Library.Repositotories
             throw new NotImplementedException();
         }
 
-        public void Update(Order product)
+        public void Update(Order order)
         {
             throw new NotImplementedException();
+        }
+
+        private IEnumerable<SqlParameter> GetSqlParametersFromOrder(Order order, bool withIdFlag)
+        {
+            var result = new List<SqlParameter>
+            {
+                new SqlParameter { ParameterName = "@Status", SqlDbType = SqlDbType.NVarChar, Size = 50, Value = order.Status.ToString() },
+                new SqlParameter { ParameterName = "@CreateDate", SqlDbType = SqlDbType.Date, Value = order.CreateDate },
+                new SqlParameter { ParameterName = "@UpdateDate", SqlDbType = SqlDbType.Date, Value = order.UpdateDate },
+                new SqlParameter { ParameterName = "@ProductId", SqlDbType = SqlDbType.Int, Value = order.ProductId },
+            };
+            if (withIdFlag)
+            {
+                result.Add(new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = order.Id });
+            }
+
+            return result;
         }
     }
 }

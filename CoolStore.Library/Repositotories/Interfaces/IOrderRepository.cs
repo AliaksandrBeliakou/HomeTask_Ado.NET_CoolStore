@@ -4,11 +4,11 @@ namespace CoolStore.Library.Interfaces
 {
     public interface IOrderRepository
     {
-        void Create(Order product);
+        void Create(Order order);
         Product GetById(int id);
-        void Update(Order product);
+        void Update(Order order);
         IEnumerable<Order> Find(OrderFilterModel filter);
-        void Delete(Order product);
+        void Delete(Order order);
         void Delete(OrderFilterModel filter);
     }
 }

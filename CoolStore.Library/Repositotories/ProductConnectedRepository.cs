@@ -48,7 +48,7 @@ namespace CoolStore.Library.Repositotories
             this.executer.GetNothing("UPDATE [dbo].[Products] SET Name = @Name, Description = @Description, Weight = @Weight, Height = @Height, Width = @Width, Length = @Length WHERE Id = @Id", CommandType.Text, sqlParameters);
         }
 
-        private static IEnumerable<SqlParameter> GetSqlParametersFromProduct(Product product, bool withIdFlaf)
+        private static IEnumerable<SqlParameter> GetSqlParametersFromProduct(Product product, bool withIdFlag)
         {
             var result = new List<SqlParameter>
             {
@@ -59,7 +59,7 @@ namespace CoolStore.Library.Repositotories
                 new SqlParameter { ParameterName = "@Width", SqlDbType = SqlDbType.Int, Value = product.Width },
                 new SqlParameter { ParameterName = "@Length", SqlDbType = SqlDbType.Int, Value = product.Length },
             };
-            if (withIdFlaf)
+            if (withIdFlag)
             {
                 result.Add(new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = product.Id });
             }

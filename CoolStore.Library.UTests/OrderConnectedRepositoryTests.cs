@@ -42,21 +42,14 @@ namespace CoolStore.Library.UTests
             var expectedParams = new List<IDbDataParameter>
             {
                 new SqlParameter { ParameterName = "@Status", SqlDbType = SqlDbType.NVarChar, Size = 50, Value = StabBuilder.Order1.Status.ToString() },
-                new SqlParameter { ParameterName = "@CreateDate", SqlDbType = SqlDbType.Date, Value = StabBuilder.Order1.CreatedDate },
-                new SqlParameter { ParameterName = "@UpdateDate", SqlDbType = SqlDbType.Date, Value = StabBuilder.Order1.UpdatedDate },
+                new SqlParameter { ParameterName = "@CreateDate", SqlDbType = SqlDbType.Date, Value = StabBuilder.Order1.CreateDate },
+                new SqlParameter { ParameterName = "@UpdateDate", SqlDbType = SqlDbType.Date, Value = StabBuilder.Order1.UpdateDate },
                 new SqlParameter { ParameterName = "@ProductId", SqlDbType = SqlDbType.Int, Value = StabBuilder.Order1.ProductId },
             };
             // Act
             repo.Create(StabBuilder.Order1);
             // Assert
             mockCommand.Verify(m => m.ExecuteNonQuery(), Times.Once);
-            mockBuilder.Verify(
-                m => m.GetCommand (
-                    It.IsAny<IDbConnection>(),
-                    "INSERT INTO [dbo].[Orders] VALUES(@Status, @CreateDate, @UpdateDate, @ProductId)",
-                    CommandType.Text,
-                    It.Is<IEnumerable<IDbDataParameter>>(actualParams => true)
-                ), Times.Once);
             mockBuilder.Verify(
                 m => m.GetCommand(
                     It.IsAny<IDbConnection>(),
@@ -77,8 +70,8 @@ namespace CoolStore.Library.UTests
             {
                 new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = StabBuilder.Order1.Id },
                 new SqlParameter { ParameterName = "@Status", SqlDbType = SqlDbType.NVarChar, Size = 50, Value = StabBuilder.Order1.Status.ToString() },
-                new SqlParameter { ParameterName = "@CreateDate", SqlDbType = SqlDbType.Date, Value = StabBuilder.Order1.CreatedDate },
-                new SqlParameter { ParameterName = "@UpdateDate", SqlDbType = SqlDbType.Date, Value = StabBuilder.Order1.UpdatedDate },
+                new SqlParameter { ParameterName = "@CreateDate", SqlDbType = SqlDbType.Date, Value = StabBuilder.Order1.CreateDate },
+                new SqlParameter { ParameterName = "@UpdateDate", SqlDbType = SqlDbType.Date, Value = StabBuilder.Order1.UpdateDate },
                 new SqlParameter { ParameterName = "@ProductId", SqlDbType = SqlDbType.Int, Value = StabBuilder.Order1.ProductId },
             };
             // Act
