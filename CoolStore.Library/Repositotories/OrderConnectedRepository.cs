@@ -1,4 +1,5 @@
-﻿using CoolStore.Library.Interfaces;
+﻿using CoolStore.Library.Helpers;
+using CoolStore.Library.Interfaces;
 using CoolStore.Library.Models;
 using CoolStore.Library.SqlData;
 using CoolStore.Library.SqlData.Interfaces;
@@ -41,14 +42,18 @@ namespace CoolStore.Library.Repositotories
             throw new NotImplementedException();
         }
 
-        public Product GetById(int id)
+        public Order GetById(int id)
         {
-            throw new NotImplementedException();
+            var sqlParameters = new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = id }.ToEnumerable();
+            return this.executer.GetSingle("SELECT * FROM [dbo].[Orders] WHERE Id = @Id", CommandType.Text, sqlParameters, Mapper.GetOrder);
         }
 
         public void Update(Order order)
         {
-            throw new NotImplementedException();
+            var sqlParameters = GetSqlParametersFromOrder(order, true);
+            this.executer.GetNothing(
+                "UPDATE [dbo].[Orders] SET Status = @Status, CreadteDate = @CreadteDate, UpdateDate = @UpdateDate, ProductId = @ProductId WHERE Id = @Id",
+                CommandType.Text, sqlParameters);
         }
 
         private IEnumerable<SqlParameter> GetSqlParametersFromOrder(Order order, bool withIdFlag)

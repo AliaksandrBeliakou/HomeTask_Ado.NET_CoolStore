@@ -23,17 +23,17 @@ namespace CoolStore.Library.UTests
         public void GetById_One_CorrectData()
         {
             // Asset
-            var mockReader = MockBuilder.ReaderOfSingleProduct;
+            var mockReader = MockBuilder.ReaderOfSingleOrder;
             var mockBuilder = MockBuilder.GetConnectedDbActorsFactory(mockReader.Object);
             var repo = new OrderConnectedRepository("connection string", mockBuilder.Object);
             // Act
-            var product = repo.GetById(1);
+            var order = repo.GetById(1);
             // Assert
-            product.Should().BeEquivalentTo(StabBuilder.Order1);
+            order.Should().BeEquivalentTo(StabBuilder.Order1);
         }
 
         [Test]
-        public void Create_CreatedProduct_CommandColl()
+        public void Create_CreatedOrder_CommandColl()
         {
             // Asset
             var mockCommand = new Mock<IDbCommand>();
@@ -60,7 +60,7 @@ namespace CoolStore.Library.UTests
         }
 
         [Test]
-        public void Update_ChangedProduct_CommandColl()
+        public void Update_ChangedOrder_CommandColl()
         {
             // Asset
             var mockCommand = new Mock<IDbCommand>();
@@ -81,14 +81,14 @@ namespace CoolStore.Library.UTests
             mockBuilder.Verify(
                 m => m.GetCommand(
                     It.IsAny<IDbConnection>(),
-                    "UPDATE [dbo].[Orders] SET Status = @Status, CreateDate = @CreateDate, UpdateDate = @UpdateDate, ProductId = @ProductId WHERE Id = @Id",
+                    "UPDATE [dbo].[Orders] SET Status = @Status, CreadteDate = @CreadteDate, UpdateDate = @UpdateDate, ProductId = @ProductId WHERE Id = @Id",
                     CommandType.Text,
                     It.Is<IEnumerable<IDbDataParameter>>(x => sqlParameterEqualityComparer.Equals(x, expectedParams)))
                 , Times.Once);
         }
 
         [Test]
-        public void Delete_ChangedProduct_CommandColl()
+        public void Delete_ChangedOrder_CommandColl()
         {
             // Asset
             var mockCommand = new Mock<IDbCommand>();
