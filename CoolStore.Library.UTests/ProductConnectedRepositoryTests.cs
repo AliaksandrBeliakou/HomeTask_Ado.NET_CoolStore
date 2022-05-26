@@ -5,8 +5,9 @@ using System.Data.SqlClient;
 namespace CoolStore.Library.UTests
 {
     [TestFixture]
-    public class ProductConnectedRepositoryTests
+    public partial class ProductConnectedRepositoryTests
     {
+        private readonly static SqlParameterEqualityComparer sqlParameterEqualityComparer = new();
         [Test]
         public void GetById_VeryBigId_DataException()
         {
@@ -69,7 +70,7 @@ namespace CoolStore.Library.UTests
                     It.IsAny<IDbConnection>(),
                     "INSERT INTO [dbo].[Products] VALUES(@Name, @Description, @Weight, @Height, @Width, @Length)",
                     CommandType.Text,
-                    It.Is<IEnumerable<IDbDataParameter>>(x => x.All(p => expectedParams.Any(inp => inp.Value!.Equals(p.Value) && inp.ParameterName == p.ParameterName))))
+                    It.Is<IEnumerable<IDbDataParameter>>(x => sqlParameterEqualityComparer.Equals(x, expectedParams)))
                 , Times.Once);
         }
 
@@ -99,7 +100,31 @@ namespace CoolStore.Library.UTests
                     It.IsAny<IDbConnection>(),
                     "UPDATE [dbo].[Products] SET Name = @Name, Description = @Description, Weight = @Weight, Height = @Height, Width = @Width, Length = @Length WHERE Id = @Id",
                     CommandType.Text,
-                    It.Is<IEnumerable<IDbDataParameter>>(x => x.All(p => expectedParams.Any(inp => inp.Value!.Equals(p.Value) && inp.ParameterName == p.ParameterName))))
+                    It.Is<IEnumerable<IDbDataParameter>>(x => sqlParameterEqualityComparer.Equals(x, expectedParams)))
+                , Times.Once);
+        }
+
+        [Test]
+        public void Delete_ChangedProduct_CommandColl()
+        {
+            // Asset
+            var mockCommand = new Mock<IDbCommand>();
+            var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockCommand.Object);
+            var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
+            var expectedParams = new List<IDbDataParameter>
+            {
+                new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Id },
+            };
+            // Act
+            repo.Delete(Stabs.Product1);
+            // Assert
+            mockCommand.Verify(m => m.ExecuteNonQuery(), Times.Once);
+            mockBuilder.Verify(
+                m => m.GetCommand(
+                    It.IsAny<IDbConnection>(),
+                    "DELETE FROM [dbo].[Products] WHERE Id = @Id",
+                    CommandType.Text,
+                    It.Is<IEnumerable<IDbDataParameter>>(x => sqlParameterEqualityComparer.Equals(x, expectedParams)))
                 , Times.Once);
         }
     }

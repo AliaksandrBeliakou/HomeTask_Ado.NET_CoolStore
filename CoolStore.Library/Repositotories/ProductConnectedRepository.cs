@@ -27,7 +27,8 @@ namespace CoolStore.Library.Repositotories
 
         public void Delete(Product product)
         {
-            throw new NotImplementedException();
+            var parameters = new List<SqlParameter> { new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = product.Id }};
+            this.executer.GetNothing("DELETE FROM [dbo].[Products] WHERE Id = @Id", CommandType.Text, parameters);
         }
 
         public IEnumerable<Product> GetAll()
