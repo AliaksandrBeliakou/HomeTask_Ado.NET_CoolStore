@@ -57,10 +57,13 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables" />
+    <Folder Include="StoredProcedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Products.sql" />
     <Build Include="Tables\Orders.sql" />
+    <Build Include="StoredProcedures\GetOrdersByFilter.sql" />
+    <Build Include="StoredProcedures\DeleteOrdersByFilter.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="SeedScript.PostDeployment.sql" />
