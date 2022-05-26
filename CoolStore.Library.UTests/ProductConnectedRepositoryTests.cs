@@ -12,8 +12,8 @@ namespace CoolStore.Library.UTests
         public void GetById_VeryBigId_DataException()
         {
             // Asset
-            var mockReader = Mocks.ReaderWhitoutProduct;
-            var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockReader.Object);
+            var mockReader = MockBuilder.ReaderWhitoutData;
+            var mockBuilder = MockBuilder.GetConnectedDbActorsFactory(mockReader.Object);
             var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
             // Act, Assert
             Assert.Throws<DataException>(() => _ = repo.GetById(int.MaxValue));
@@ -23,26 +23,26 @@ namespace CoolStore.Library.UTests
         public void GetById_One_CorrectData()
         {
             // Asset
-            var mockReader = Mocks.ReaderOfSingleProduct;
-            var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockReader.Object);
+            var mockReader = MockBuilder.ReaderOfSingleProduct;
+            var mockBuilder = MockBuilder.GetConnectedDbActorsFactory(mockReader.Object);
             var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
             // Act
             var product = repo.GetById(1);
             // Assert
-            product.Should().BeEquivalentTo(Stabs.Product1);
+            product.Should().BeEquivalentTo(StabBuilder.Product1);
         }
 
         [Test]
         public void GetAll_VeryBigId_DataException()
         {
             // Asset
-            var mockReader = Mocks.ReaderOfProductList;
-            var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockReader.Object);
+            var mockReader = MockBuilder.ReaderOfProductList;
+            var mockBuilder = MockBuilder.GetConnectedDbActorsFactory(mockReader.Object);
             var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
             // Act
             var actualList = repo.GetAll();
             // Assert
-            actualList.Should().BeEquivalentTo(Stabs.ProductList);
+            actualList.Should().BeEquivalentTo(StabBuilder.ProductList);
         }
 
         [Test]
@@ -50,19 +50,19 @@ namespace CoolStore.Library.UTests
         {
             // Asset
             var mockCommand = new Mock<IDbCommand>();
-            var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockCommand.Object);
+            var mockBuilder = MockBuilder.GetConnectedDbActorsFactory(mockCommand.Object);
             var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
             var expectedParams = new List<IDbDataParameter>
             {
-                new SqlParameter { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Size = 128, Value = Stabs.Product1.Name },
-                new SqlParameter { ParameterName = "@Description", SqlDbType = SqlDbType.Text, Value = Stabs.Product1.Description },
-                new SqlParameter { ParameterName = "@Weight", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Weight },
-                new SqlParameter { ParameterName = "@Height", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Height },
-                new SqlParameter { ParameterName = "@Width", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Width },
-                new SqlParameter { ParameterName = "@Length", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Length },
+                new SqlParameter { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Size = 128, Value = StabBuilder.Product1.Name },
+                new SqlParameter { ParameterName = "@Description", SqlDbType = SqlDbType.Text, Value = StabBuilder.Product1.Description },
+                new SqlParameter { ParameterName = "@Weight", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Weight },
+                new SqlParameter { ParameterName = "@Height", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Height },
+                new SqlParameter { ParameterName = "@Width", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Width },
+                new SqlParameter { ParameterName = "@Length", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Length },
             };
             // Act
-            repo.Create(Stabs.Product1);
+            repo.Create(StabBuilder.Product1);
             // Assert
             mockCommand.Verify(m => m.ExecuteNonQuery(), Times.Once);
             mockBuilder.Verify(
@@ -79,20 +79,20 @@ namespace CoolStore.Library.UTests
         {
             // Asset
             var mockCommand = new Mock<IDbCommand>();
-            var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockCommand.Object);
+            var mockBuilder = MockBuilder.GetConnectedDbActorsFactory(mockCommand.Object);
             var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
             var expectedParams = new List<IDbDataParameter>
             {
-                new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Id },
-                new SqlParameter { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Size = 128, Value = Stabs.Product1.Name },
-                new SqlParameter { ParameterName = "@Description", SqlDbType = SqlDbType.Text, Value = Stabs.Product1.Description },
-                new SqlParameter { ParameterName = "@Weight", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Weight },
-                new SqlParameter { ParameterName = "@Height", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Height },
-                new SqlParameter { ParameterName = "@Width", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Width },
-                new SqlParameter { ParameterName = "@Length", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Length },
+                new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Id },
+                new SqlParameter { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Size = 128, Value = StabBuilder.Product1.Name },
+                new SqlParameter { ParameterName = "@Description", SqlDbType = SqlDbType.Text, Value = StabBuilder.Product1.Description },
+                new SqlParameter { ParameterName = "@Weight", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Weight },
+                new SqlParameter { ParameterName = "@Height", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Height },
+                new SqlParameter { ParameterName = "@Width", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Width },
+                new SqlParameter { ParameterName = "@Length", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Length },
             };
             // Act
-            repo.Update(Stabs.Product1);
+            repo.Update(StabBuilder.Product1);
             // Assert
             mockCommand.Verify(m => m.ExecuteNonQuery(), Times.Once);
             mockBuilder.Verify(
@@ -109,14 +109,14 @@ namespace CoolStore.Library.UTests
         {
             // Asset
             var mockCommand = new Mock<IDbCommand>();
-            var mockBuilder = Mocks.GetConnectedDbActorsFactory(mockCommand.Object);
+            var mockBuilder = MockBuilder.GetConnectedDbActorsFactory(mockCommand.Object);
             var repo = new ProductConnectedRepository("connection string", mockBuilder.Object);
             var expectedParams = new List<IDbDataParameter>
             {
-                new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = Stabs.Product1.Id },
+                new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Id },
             };
             // Act
-            repo.Delete(Stabs.Product1);
+            repo.Delete(StabBuilder.Product1);
             // Assert
             mockCommand.Verify(m => m.ExecuteNonQuery(), Times.Once);
             mockBuilder.Verify(
