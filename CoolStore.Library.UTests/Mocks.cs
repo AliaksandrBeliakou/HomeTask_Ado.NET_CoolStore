@@ -73,5 +73,15 @@ namespace CoolStore.Library.UTests
             moqObject.Setup(m => m.GetDataReader(It.IsAny<IDbCommand>())).Returns(mockReader);
             return moqObject;
         }
+
+        public static Mock<IConnectedDbActorsFactory> GetConnectedDbActorsFactory(IDbCommand command)
+        {
+            var moqObject = new Mock<IConnectedDbActorsFactory>();
+            moqObject.Setup(m => m.GetConnection(It.IsAny<string>())).Returns(Connection.Object);
+            moqObject.Setup(m => m.GetCommand(It.IsAny<IDbConnection>(), It.IsAny<string>(), It.IsAny<CommandType>(), It.IsAny<IEnumerable<IDbDataParameter>>()))
+                .Returns(command);
+            moqObject.Setup(m => m.GetDataReader(It.IsAny<IDbCommand>())).Returns(command.ExecuteReader());
+            return moqObject;
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace CoolStore.Library.Repositotories
         public void Create(Product product)
         {
             var sqlParameters = GetSqlParametersFromProduct(product, false);
-            //this.executer.Push("INSERT INTO [dbo].[Products] VALUES(@Name, @Description, @Weight, @Height, @Width, @Length)", sqlParameters, Mapper.GetProduct);
+            this.executer.GetNothing("INSERT INTO [dbo].[Products] VALUES(@Name, @Description, @Weight, @Height, @Width, @Length)", CommandType.Text, sqlParameters);
         }
 
         public void Delete(Product product)
@@ -43,7 +43,8 @@ namespace CoolStore.Library.Repositotories
 
         public void Update(Product product)
         {
-            throw new NotImplementedException();
+            var sqlParameters = GetSqlParametersFromProduct(product, true);
+            this.executer.GetNothing("UPDATE [dbo].[Products] SET Name = @Name, Description = @Description, Weight = @Weight, Height = @Height, Width = @Width, Length = @Length WHERE Id = @Id", CommandType.Text, sqlParameters);
         }
 
         private static IEnumerable<SqlParameter> GetSqlParametersFromProduct(Product product, bool withIdFlaf)
