@@ -1,31 +1,28 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
-namespace CoolStore.Library.UTests
+namespace CoolStore.Library.UTests.Helpers
 {
-    public partial class ProductConnectedRepositoryTests
+    public class SqlParameterEqualityComparer : EqualityComparer<IEnumerable<IDbDataParameter>>
     {
-        private class SqlParameterEqualityComparer : EqualityComparer<IEnumerable<IDbDataParameter>>
+        public override bool Equals(IEnumerable<IDbDataParameter>? x, IEnumerable<IDbDataParameter>? y)
         {
-            public override bool Equals(IEnumerable<IDbDataParameter>? x, IEnumerable<IDbDataParameter>? y)
+            if (x is null && y is null)
             {
-                if (x is null && y is null)
-                {
-                    return true;
-                }
-
-                if (x is null || y is null)
-                {
-                    return false;
-                }
-
-                return x.All(xItem => y.Any(yItem => yItem.Value!.Equals(xItem.Value) && yItem.ParameterName == xItem.ParameterName));
+                return true;
             }
 
-            public override int GetHashCode([DisallowNull] IEnumerable<IDbDataParameter> obj)
+            if (x is null || y is null)
             {
-                throw new NotImplementedException();
+                return false;
             }
+
+            return x.All(xItem => y.Any(yItem => yItem.Value!.Equals(xItem.Value) && yItem.ParameterName == xItem.ParameterName));
+        }
+
+        public override int GetHashCode([DisallowNull] IEnumerable<IDbDataParameter> obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

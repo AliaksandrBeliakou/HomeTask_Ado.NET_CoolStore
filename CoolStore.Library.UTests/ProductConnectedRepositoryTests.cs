@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 namespace CoolStore.Library.UTests
 {
     [TestFixture]
-    public partial class ProductConnectedRepositoryTests
+    public class ProductConnectedRepositoryTests
     {
         private readonly static SqlParameterEqualityComparer sqlParameterEqualityComparer = new();
         [Test]
