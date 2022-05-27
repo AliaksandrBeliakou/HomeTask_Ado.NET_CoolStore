@@ -34,12 +34,14 @@ namespace CoolStore.Library.Repositotories
 
         public void Delete(OrderFilterModel filter)
         {
-            throw new NotImplementedException();
+            var sqlParameters = GetSqlParametersFromOrderFilter(filter);
+            this.executer.GetNothing("DeleteOrdersByFilter", CommandType.StoredProcedure, sqlParameters);
         }
 
         public IEnumerable<Order> Find(OrderFilterModel filter)
         {
-            throw new NotImplementedException();
+            var sqlParameters = GetSqlParametersFromOrderFilter(filter);
+            return this.executer.GetList("GetOrdersByFilter", CommandType.StoredProcedure, sqlParameters, Mapper.GetOrder);
         }
 
         public Order GetById(int id)
@@ -69,6 +71,19 @@ namespace CoolStore.Library.Repositotories
             {
                 result.Add(new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = order.Id });
             }
+
+            return result;
+        }
+
+        private IEnumerable<SqlParameter> GetSqlParametersFromOrderFilter(OrderFilterModel filter)
+        {
+            var result = new List<SqlParameter>
+            {
+                new SqlParameter { ParameterName = "@Status", SqlDbType = SqlDbType.NVarChar, Size = 50, IsNullable = true, Value = filter.Status.ToString() },
+                new SqlParameter { ParameterName = "@Year", SqlDbType = SqlDbType.Int, IsNullable = true, Value = filter.Year },
+                new SqlParameter { ParameterName = "@Month", SqlDbType = SqlDbType.Int, IsNullable = true, Value = filter.Month },
+                new SqlParameter { ParameterName = "@ProductId", SqlDbType = SqlDbType.Int, IsNullable = true, Value = filter.ProductId },
+            };
 
             return result;
         }
