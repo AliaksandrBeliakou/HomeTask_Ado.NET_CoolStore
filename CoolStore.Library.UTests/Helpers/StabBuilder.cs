@@ -13,5 +13,9 @@ namespace CoolStore.Library.UTests.Helpers
         public static Order Order1 { get; } = new Order(1, OrderStatus.Done, new DateTime(2020, 8, 5), new DateTime(2021, 5, 26), 1);
         public static Order Order2 { get; } = new Order(2, OrderStatus.InProgress, new DateTime(2021, 8, 5), new DateTime(2021, 5, 26), 1);
         public static IEnumerable<Order> OrderList { get; } = new Order[] { Order1, Order2 };
+
+        //OrderFilters
+        public static OrderFilterModel OrderFilter1 { get; } = new OrderFilterModel(OrderStatus.Done, 2021, null, null);
+        public static OrderFilterModel OrderFilter2 { get; } = new OrderFilterModel(OrderStatus.InProgress, null, null, 1);
     }
 }

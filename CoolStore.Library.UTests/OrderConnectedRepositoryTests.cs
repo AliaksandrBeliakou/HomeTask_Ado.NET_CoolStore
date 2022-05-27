@@ -1,4 +1,5 @@
-﻿using CoolStore.Library.Repositotories;
+﻿using CoolStore.Library.Models;
+using CoolStore.Library.Repositotories;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -109,6 +110,70 @@ namespace CoolStore.Library.UTests
                     CommandType.Text,
                     It.Is<IEnumerable<IDbDataParameter>>(x => sqlParameterEqualityComparer.Equals(x, expectedParams)))
                 , Times.Once);
+        }
+
+
+
+        [Test]
+        public void Find_OrderFilter_CommandCollAndOrderList()
+        { // Asset
+
+
+            // Asset
+            var mockReader = MockBuilder.ReaderOfOrderList;
+            var mockCommand = MockBuilder.GetCommandWithReader(mockReader.Object);
+            var mockBuilder = MockBuilder.GetConnectedDbActorsFactory(mockCommand.Object);
+            var repo = new OrderConnectedRepository("connection string", mockBuilder.Object);
+            var expectedParams = GetSqlParametersFromOrderFilter(StabBuilder.OrderFilter1);
+            // Act
+            var list = repo.Find(StabBuilder.OrderFilter1);
+            // Assert
+            list.Should().BeEquivalentTo(StabBuilder.OrderList);
+            mockBuilder.Verify(
+                m => m.GetCommand(
+                    It.IsAny<IDbConnection>(),
+                    "GetOrdersByFilter",
+                    CommandType.StoredProcedure,
+                    It.Is<IEnumerable<IDbDataParameter>>(actualParams => sqlParameterEqualityComparer.Equals(actualParams, expectedParams)))
+                , Times.Once);
+        }
+
+
+        [Test]
+        public void Delete_OrderFilter_CommandColl()
+        { // Asset
+
+
+            // Asset
+            var mockReader = MockBuilder.ReaderOfOrderList;
+            var mockCommand = MockBuilder.GetCommandWithReader(mockReader.Object);
+            var mockBuilder = MockBuilder.GetConnectedDbActorsFactory(mockCommand.Object);
+            var repo = new OrderConnectedRepository("connection string", mockBuilder.Object);
+            var expectedParams = GetSqlParametersFromOrderFilter(StabBuilder.OrderFilter1);
+            // Act
+            repo.Delete(StabBuilder.OrderFilter1);
+            // Assert
+            mockCommand.Verify(m => m.ExecuteNonQuery(), Times.Once);
+            mockBuilder.Verify(
+                m => m.GetCommand(
+                    It.IsAny<IDbConnection>(),
+                    "DeleteOrdersByFilter",
+                    CommandType.StoredProcedure,
+                    It.Is<IEnumerable<IDbDataParameter>>(actualParams => sqlParameterEqualityComparer.Equals(actualParams, expectedParams)))
+                , Times.Once);
+        }
+
+        private IEnumerable<SqlParameter> GetSqlParametersFromOrderFilter(OrderFilterModel filter)
+        {
+            var result = new List<SqlParameter>
+            {
+                new SqlParameter { ParameterName = "@Status", SqlDbType = SqlDbType.NVarChar, Size = 50, IsNullable = true, Value = filter.Status.ToString() },
+                new SqlParameter { ParameterName = "@Year", SqlDbType = SqlDbType.Int, IsNullable = true, Value = filter.Year },
+                new SqlParameter { ParameterName = "@Month", SqlDbType = SqlDbType.Int, IsNullable = true, Value = filter.Month },
+                new SqlParameter { ParameterName = "@ProductId", SqlDbType = SqlDbType.Int, IsNullable = true, Value = filter.ProductId },
+            };
+
+            return result;
         }
     }
 }
