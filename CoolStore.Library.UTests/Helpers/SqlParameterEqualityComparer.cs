@@ -16,7 +16,7 @@ namespace CoolStore.Library.UTests.Helpers
             {
                 return false;
             }
-            return x.All(xItem => y.Any(yItem => yItem.Value!.Equals(xItem.Value) && yItem.ParameterName == xItem.ParameterName));
+            return x.All(xItem => y.Any(yItem => object.Equals(yItem.Value, xItem.Value) && yItem.ParameterName == xItem.ParameterName));
         }
 
         public override int GetHashCode([DisallowNull] IEnumerable<IDbDataParameter> obj)
