@@ -82,11 +82,18 @@ namespace CoolStore.Library.SqlData.AdoNetConnectedModel
         {
             using (var connection = actorBuilder.GetConnection(connectionString))
             {
+                connection.Open();
+                var transaction = connection.BeginTransaction();
                 var command = actorBuilder.GetCommand(connection, sqlCommand, commandType, sqlParametersparams);
                 try
                 {
-                    connection.Open();
+                    command.Transaction = transaction;
                     action(command);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
                 }
                 finally
                 {

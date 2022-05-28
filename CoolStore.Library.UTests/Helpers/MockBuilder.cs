@@ -1,5 +1,6 @@
 ﻿using CoolStore.Library.SqlData.Interfaces;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace CoolStore.Library.UTests.Helpers
 {
@@ -92,7 +93,12 @@ namespace CoolStore.Library.UTests.Helpers
         {
             get
             {
-                return new Mock<IDbConnection>();
+                var mockConnection = new Mock<IDbConnection>();
+                var transaction = new Mock<IDbTransaction>();
+                transaction.Setup(m => m.Commit());
+                transaction.Setup(m => m.Rollback());
+                mockConnection.Setup(m => m.BeginTransaction()).Returns(transaction.Object);
+                return mockConnection;
             }
         }
 
