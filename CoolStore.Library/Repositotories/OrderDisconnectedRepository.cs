@@ -11,21 +11,12 @@ namespace CoolStore.Library.Repositotories
     {
         private readonly string connectionString;
         private readonly CoolStoreDataSet dataset;
-        private readonly TableAdapterManager adapterManager = new TableAdapterManager();
 
 
         public OrderDisconnectedRepository(CoolStoreDataSet dataset, string connectionString)
         {
             this.connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
-            this.dataset = dataset ?? throw new ArgumentNullException(nameof(dataset));
-
-            using (var connection = new SqlConnection(connectionString))
-            {
-                adapterManager.ProductsTableAdapter = new ProductsTableAdapter { Connection = connection };
-                adapterManager.ProductsTableAdapter.Fill(this.dataset.Products);
-                adapterManager.OrdersTableAdapter = new OrdersTableAdapter { Connection = connection };
-                adapterManager.OrdersTableAdapter.Fill(this.dataset.Orders);
-            }
+            this.dataset = dataset ?? throw new ArgumentNullException(nameof(dataset));           
         }
 
         public void Create(Order order)
@@ -84,8 +75,8 @@ namespace CoolStore.Library.Repositotories
         {
             using (var connection = new SqlConnection(connectionString))
             {
-                adapterManager.OrdersTableAdapter = new OrdersTableAdapter { Connection = connection };
-                adapterManager.OrdersTableAdapter.Update(this.dataset.Orders);
+                var adapter = new OrdersTableAdapter { Connection = connection };
+                adapter.Update(this.dataset.Orders);
             }
         }
     }
