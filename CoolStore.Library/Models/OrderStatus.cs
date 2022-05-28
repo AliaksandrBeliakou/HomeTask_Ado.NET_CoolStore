@@ -1,4 +1,4 @@
-﻿namespace CoolStore.Library
+﻿namespace CoolStore.Library.Models
 {
     public enum OrderStatus
     {

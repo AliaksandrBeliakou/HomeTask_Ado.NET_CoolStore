@@ -21,6 +21,8 @@ namespace CoolStore.Library.Repositotories
 
             using (var connection = new SqlConnection(connectionString))
             {
+                adapterManager.ProductsTableAdapter = new ProductsTableAdapter { Connection = connection };
+                adapterManager.ProductsTableAdapter.Fill(this.dataset.Products);
                 adapterManager.OrdersTableAdapter = new OrdersTableAdapter { Connection = connection };
                 adapterManager.OrdersTableAdapter.Fill(this.dataset.Orders);
             }
