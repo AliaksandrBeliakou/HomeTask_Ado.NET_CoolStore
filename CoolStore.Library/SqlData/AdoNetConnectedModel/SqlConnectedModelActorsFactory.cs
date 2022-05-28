@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace CoolStore.Library.SqlData
+namespace CoolStore.Library.SqlData.AdoNetConnectedModel
 {
     public class SqlConnectedModelActorsFactory : IConnectedDbActorsFactory
     {

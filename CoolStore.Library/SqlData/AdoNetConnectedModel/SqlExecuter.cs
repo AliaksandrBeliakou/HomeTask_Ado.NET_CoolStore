@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
-namespace CoolStore.Library.SqlData
+namespace CoolStore.Library.SqlData.AdoNetConnectedModel
 {
     internal class SqlExecuter
     {
@@ -18,7 +18,7 @@ namespace CoolStore.Library.SqlData
         public TEntity GetSingle<TEntity>(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
         {
             TEntity? result = default;
-            this.ConnectCreateReaderAndAct(sqlCommand, commandType, sqlParametersparams, reader =>
+            ConnectCreateReaderAndAct(sqlCommand, commandType, sqlParametersparams, reader =>
             {
                 if (reader.Read())
                 {
@@ -49,7 +49,7 @@ namespace CoolStore.Library.SqlData
         public IEnumerable<TEntity> GetList<TEntity>(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
         {
             var result = new List<TEntity>();
-            this.ConnectCreateReaderAndAct(sqlCommand, commandType, sqlParametersparams, reader =>
+            ConnectCreateReaderAndAct(sqlCommand, commandType, sqlParametersparams, reader =>
             {
                 while (reader.Read())
                 {
@@ -80,9 +80,9 @@ namespace CoolStore.Library.SqlData
 
         private void ConnectAndAct(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Action<IDbCommand> action)
         {
-            using (var connection = this.actorBuilder.GetConnection(connectionString))
+            using (var connection = actorBuilder.GetConnection(connectionString))
             {
-                var command = this.actorBuilder.GetCommand(connection, sqlCommand, commandType, sqlParametersparams);
+                var command = actorBuilder.GetCommand(connection, sqlCommand, commandType, sqlParametersparams);
                 try
                 {
                     connection.Open();
@@ -99,7 +99,7 @@ namespace CoolStore.Library.SqlData
         {
             ConnectAndAct(sqlCommand, commandType, sqlParametersparams, command =>
             {
-                using (var reader = this.actorBuilder.GetDataReader(command))
+                using (var reader = actorBuilder.GetDataReader(command))
                 {
                     try
                     {

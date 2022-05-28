@@ -1,7 +1,7 @@
 ﻿using CoolStore.Library.Helpers;
 using CoolStore.Library.Interfaces;
 using CoolStore.Library.Models;
-using CoolStore.Library.SqlData;
+using CoolStore.Library.SqlData.AdoNetConnectedModel;
 using CoolStore.Library.SqlData.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
