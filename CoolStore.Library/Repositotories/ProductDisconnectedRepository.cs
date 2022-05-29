@@ -1,21 +1,20 @@
 ﻿using CoolStore.Library.Interfaces;
 using CoolStore.Library.Models;
 using CoolStore.Library.SqlData.AdoNetDisconectedModel;
-using CoolStore.Library.SqlData.AdoNetDisconectedModel.CoolStoreDataSetTableAdapters;
+using CoolStore.Library.SqlData.AdoNetDisconectedModel.Interfaces;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace CoolStore.Library.Repositotories
 {
     public class ProductDisconnectedRepository : IProductRepository
     {
-        private readonly string connectionString;
         private readonly CoolStoreDataSet dataset;
+        private readonly ICoolStoreDbProvider provider;
 
 
-        public ProductDisconnectedRepository(CoolStoreDataSet dataset, string connectionString)
+        public ProductDisconnectedRepository(CoolStoreDataSet dataset, ICoolStoreDbProvider provider)
         {
-            this.connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+            this.provider = provider ?? throw new ArgumentNullException(nameof(provider));
             this.dataset = dataset ?? throw new ArgumentNullException(nameof(dataset));
         }
 
@@ -57,11 +56,7 @@ namespace CoolStore.Library.Repositotories
 
         private void SaveChangesToDatabase()
         {
-            using (var connection = new SqlConnection(connectionString))
-            {
-                var adapter = new ProductsTableAdapter { Connection = connection };
-                adapter.Update(this.dataset.Products);
-            }
+            this.provider.Update(this.dataset.Products);
         }
     }
 }

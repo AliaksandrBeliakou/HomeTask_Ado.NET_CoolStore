@@ -5,8 +5,9 @@ using CoolStore.Library.SqlData.AdoNetDisconectedModel;
 
 Console.WriteLine("Hello, World!");
 var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Database=CoolStore;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False";
-var dataset = new CoolStoreDatasetBuilder().Build(connectionString);
-IProductRepository productRepo = new ProductDisconnectedRepository(dataset, connectionString);
+var provider = new CoolStoreDbProvider(connectionString);
+var dataset = new CoolStoreDatasetBuilder().Build(provider);
+IProductRepository productRepo = new ProductDisconnectedRepository(dataset, provider);
 
 Console.WriteLine("All products");
 var productList = productRepo.GetAll();
@@ -20,7 +21,7 @@ Console.WriteLine(productRepo.GetById(1).ToString());
 //productRepo.Update(new Product(1002, "3", "34", 22, 12, 12, 12));
 //productRepo.Delete(new Product(1002, "3", "34", 22, 12, 12, 12));
 
-IOrderRepository orderRepo = new OrderDisconnectedRepository(dataset, connectionString);
+IOrderRepository orderRepo = new OrderDisconnectedRepository(dataset, provider);
 var filter = new OrderFilterModel(OrderStatus.Loading, null, null, 3);
 Console.WriteLine("All products");
 var orderList = orderRepo.Find(filter);

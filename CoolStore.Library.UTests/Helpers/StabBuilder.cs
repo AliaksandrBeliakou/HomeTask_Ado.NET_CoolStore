@@ -1,4 +1,5 @@
 ﻿using CoolStore.Library.Models;
+using CoolStore.Library.SqlData.AdoNetDisconectedModel;
 
 namespace CoolStore.Library.UTests.Helpers
 {
@@ -17,5 +18,19 @@ namespace CoolStore.Library.UTests.Helpers
         //OrderFilters
         public static OrderFilterModel OrderFilter1 { get; } = new OrderFilterModel(OrderStatus.Done, 2021, null, null);
         public static OrderFilterModel OrderFilter2 { get; } = new OrderFilterModel(OrderStatus.InProgress, null, null, 1);
+
+        public static CoolStoreDataSet CoolStoreDataSet
+        {
+            get
+            {
+                var dataset = new CoolStoreDataSet();
+                dataset.Products.AddProductsRow(Product1.Name, Product1.Description, Product1.Weight, Product1.Height, Product1.Width, Product1.Length);
+                dataset.Products.AddProductsRow(Product2.Name, Product2.Description, Product2.Weight, Product2.Height, Product2.Width, Product2.Length);
+                dataset.Products.AddProductsRow(Product3.Name, Product3.Description, Product3.Weight, Product3.Height, Product3.Width, Product3.Length);
+                dataset.Orders.AddOrdersRow(Order1.Status.ToString(), Order1.CreateDate, Order1.UpdateDate, dataset.Products[1]);
+                dataset.AcceptChanges();
+                return dataset;
+            }
+        }
     }
 }

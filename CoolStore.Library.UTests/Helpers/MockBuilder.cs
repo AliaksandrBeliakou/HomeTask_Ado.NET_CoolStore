@@ -1,4 +1,6 @@
-﻿using CoolStore.Library.SqlData.Interfaces;
+﻿using CoolStore.Library.SqlData.AdoNetDisconectedModel;
+using CoolStore.Library.SqlData.AdoNetDisconectedModel.Interfaces;
+using CoolStore.Library.SqlData.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -121,5 +123,18 @@ namespace CoolStore.Library.UTests.Helpers
             moqObject.Setup(m => m.GetDataReader(It.IsAny<IDbCommand>())).Returns(command.ExecuteReader());
             return moqObject;
         }
+
+        public static Mock<ICoolStoreDatasetBuilder> CoolStoreDatasetBuilder
+        {
+            get
+            {
+                var moqObject = new Mock<ICoolStoreDatasetBuilder>();
+                moqObject.Setup(m => m.Build(It.IsAny<ICoolStoreDbProvider>())).Returns(StabBuilder.CoolStoreDataSet);
+                return moqObject;
+            }
+        }
+
+        public static Mock<ICoolStoreDbProvider> CoolStoreDbProvider { get => new Mock<ICoolStoreDbProvider>(); } 
+
     }
 }

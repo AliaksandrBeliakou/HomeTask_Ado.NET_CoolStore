@@ -1,22 +1,21 @@
 ﻿using CoolStore.Library.Interfaces;
 using CoolStore.Library.Models;
 using CoolStore.Library.SqlData.AdoNetDisconectedModel;
-using CoolStore.Library.SqlData.AdoNetDisconectedModel.CoolStoreDataSetTableAdapters;
-using System.Data.SqlClient;
+using CoolStore.Library.SqlData.AdoNetDisconectedModel.Interfaces;
 using static CoolStore.Library.SqlData.AdoNetDisconectedModel.CoolStoreDataSet;
 
 namespace CoolStore.Library.Repositotories
 {
     public class OrderDisconnectedRepository : IOrderRepository
     {
-        private readonly string connectionString;
         private readonly CoolStoreDataSet dataset;
+        private readonly ICoolStoreDbProvider provider;
 
 
-        public OrderDisconnectedRepository(CoolStoreDataSet dataset, string connectionString)
+        public OrderDisconnectedRepository(CoolStoreDataSet dataset, ICoolStoreDbProvider provider)
         {
-            this.connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
             this.dataset = dataset ?? throw new ArgumentNullException(nameof(dataset));           
+            this.provider = provider ?? throw new ArgumentNullException(nameof(provider));           
         }
 
         public void Create(Order order)
@@ -73,11 +72,7 @@ namespace CoolStore.Library.Repositotories
 
         private void SaveChangesToDatabase()
         {
-            using (var connection = new SqlConnection(connectionString))
-            {
-                var adapter = new OrdersTableAdapter { Connection = connection };
-                adapter.Update(this.dataset.Orders);
-            }
+            this.provider.Update(this.dataset.Orders);
         }
     }
 }
