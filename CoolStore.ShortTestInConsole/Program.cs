@@ -2,12 +2,15 @@
 using CoolStore.Library.Models;
 using CoolStore.Library.Repositotories;
 using CoolStore.Library.SqlData.AdoNetDisconectedModel;
+using CoolStore.Library.SqlData.Dapper;
 
 Console.WriteLine("Hello, World!");
 var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Database=CoolStore;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False";
-var provider = new CoolStoreDbProvider(connectionString);
-var dataset = new CoolStoreDatasetBuilder().Build(provider);
-IProductRepository productRepo = new ProductDisconnectedRepository(dataset, provider);
+var connectionBuilder = new ConnectionBuilder(connectionString);
+//var provider = new CoolStoreDbProvider(connectionString);
+//var dataset = new CoolStoreDatasetBuilder().Build(provider);
+//IProductRepository productRepo = new ProductDisconnectedRepository(dataset, provider);
+IProductRepository productRepo = new ProductDapperRepository(connectionBuilder);
 
 Console.WriteLine("All products");
 var productList = productRepo.GetAll();
@@ -21,15 +24,16 @@ Console.WriteLine(productRepo.GetById(1).ToString());
 //productRepo.Update(new Product(1002, "3", "34", 22, 12, 12, 12));
 //productRepo.Delete(new Product(1002, "3", "34", 22, 12, 12, 12));
 
-IOrderRepository orderRepo = new OrderDisconnectedRepository(dataset, provider);
-var filter = new OrderFilterModel(OrderStatus.Loading, null, null, 3);
+IOrderRepository orderRepo = new OrderDapperRepository(connectionBuilder);
+//var filter = new OrderFilterModel(OrderStatus.Loading, null, null, 3);
+var filter = new OrderFilterModel(null, null, null, null);
 Console.WriteLine("All products");
 var orderList = orderRepo.Find(filter);
 foreach (var order in orderList)
     Console.WriteLine(order.ToString());
 
-//Console.WriteLine("\nOne product");
-//Console.WriteLine(orderRepo.GetById(1).ToString());
+Console.WriteLine("\nOne product");
+Console.WriteLine(orderRepo.GetById(10).ToString());
 
 //orderRepo.Create(new Order(0, OrderStatus.Loading, new DateTime(1999, 1, 1), new DateTime(2021, 1, 1), 3));
 //orderRepo.Update(new Order(1003, OrderStatus.Loading, new DateTime(1999, 1, 1), new DateTime(2021, 1, 1), 3));
