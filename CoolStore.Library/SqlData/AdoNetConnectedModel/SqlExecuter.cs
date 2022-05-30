@@ -17,6 +17,16 @@ namespace CoolStore.Library.SqlData.AdoNetConnectedModel
 
         public TEntity GetSingle<TEntity>(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
         {
+            if (sqlCommand is null)
+            {
+                throw new ArgumentNullException(nameof(sqlCommand));
+            }
+
+            if (map is null)
+            {
+                throw new ArgumentNullException(nameof(map));
+            }
+
             TEntity? result = default;
             ConnectCreateReaderAndAct(sqlCommand, commandType, sqlParametersparams, reader =>
             {
@@ -48,6 +58,16 @@ namespace CoolStore.Library.SqlData.AdoNetConnectedModel
 
         public IEnumerable<TEntity> GetList<TEntity>(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
         {
+            if(sqlCommand is null)
+            {
+                throw new ArgumentNullException(nameof(sqlCommand));
+            }
+
+            if (map is null)
+            {
+                throw new ArgumentNullException(nameof(map));
+            }
+
             var result = new List<TEntity>();
             ConnectCreateReaderAndAct(sqlCommand, commandType, sqlParametersparams, reader =>
             {
@@ -62,6 +82,16 @@ namespace CoolStore.Library.SqlData.AdoNetConnectedModel
 
         public TResult? GetScalar<TEntity, TResult>(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
         {
+            if (sqlCommand is null)
+            {
+                throw new ArgumentNullException(nameof(sqlCommand));
+            }
+
+            if (map is null)
+            {
+                throw new ArgumentNullException(nameof(map));
+            }
+
             object? result = default;
             ConnectAndAct(sqlCommand, commandType, sqlParametersparams, command =>
             {
@@ -72,6 +102,11 @@ namespace CoolStore.Library.SqlData.AdoNetConnectedModel
         }
         public void GetNothing(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams)
         {
+            if (sqlCommand is null)
+            {
+                throw new ArgumentNullException(nameof(sqlCommand));
+            }
+
             ConnectAndAct(sqlCommand, commandType, sqlParametersparams, command =>
             {
                 command.ExecuteNonQuery();

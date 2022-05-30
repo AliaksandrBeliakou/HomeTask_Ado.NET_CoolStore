@@ -16,6 +16,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Create(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             using var connection = connectionBuilder.Build();
             connection.Open();
             connection.Execute("INSERT INTO [dbo].[Products] VALUES(@Name, @Description, @Weight, @Height, @Width, @Length)",
@@ -24,6 +29,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Delete(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             using var connection = connectionBuilder.Build();
             connection.Open();
             connection.Execute("DELETE FROM [dbo].[Products] WHERE Id = @Id", new { product.Id });
@@ -45,6 +55,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Update(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             using var connection = connectionBuilder.Build();
             connection.Open();
             connection.Execute("UPDATE [dbo].[Products] SET Name = @Name, Description = @Description, Weight = @Weight, Height = @Height, Width = @Width, Length = @Length WHERE Id = @Id",

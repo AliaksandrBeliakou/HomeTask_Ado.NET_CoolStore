@@ -16,12 +16,22 @@ namespace CoolStore.Library.Repositotories
 
         public void Create(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             context.Orders.Add(order.ToEntity());
             context.SaveChanges();
         }
 
         public void Delete(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             var itemForDeletion = context.Orders.Single(x => x.Id == order.Id);
             context.Orders.Remove(itemForDeletion);
             context.SaveChanges();
@@ -29,7 +39,12 @@ namespace CoolStore.Library.Repositotories
 
         public void Delete(OrderFilterModel filter)
         {
-            foreach(var order in FindEntities(filter))
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            foreach (var order in FindEntities(filter))
             {
                 context.Orders.Remove(order);
             }
@@ -38,6 +53,11 @@ namespace CoolStore.Library.Repositotories
 
         public IEnumerable<Order> Find(OrderFilterModel filter)
         {
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return FindEntities(filter)
                 .Select(x => x.ToModel());
         }
@@ -49,6 +69,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Update(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             var oldOrder = context.Orders.Single(prop => prop.Id == order.Id);
             oldOrder.Status = order.Status.ToString();
             oldOrder.CreateDate = order.CreateDate;

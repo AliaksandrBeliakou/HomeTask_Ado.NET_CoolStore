@@ -21,6 +21,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Create(Order order)
         {
+            if(order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             var sqlParameters = GetSqlParametersFromOrder(order, false);
             this.executer.GetNothing("INSERT INTO [dbo].[Orders] VALUES(@Status, @CreateDate, @UpdateDate, @ProductId)", 
                 CommandType.Text, sqlParameters);
@@ -28,18 +33,33 @@ namespace CoolStore.Library.Repositotories
 
         public void Delete(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             var parameters = new List<SqlParameter> { new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = order.Id } };
             this.executer.GetNothing("DELETE FROM [dbo].[Orders] WHERE Id = @Id", CommandType.Text, parameters);
         }
 
         public void Delete(OrderFilterModel filter)
         {
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             var sqlParameters = GetSqlParametersFromOrderFilter(filter);
             this.executer.GetNothing("DeleteOrdersByFilter", CommandType.StoredProcedure, sqlParameters);
         }
 
         public IEnumerable<Order> Find(OrderFilterModel filter)
         {
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             var sqlParameters = GetSqlParametersFromOrderFilter(filter);
             return this.executer.GetList("GetOrdersByFilter", CommandType.StoredProcedure, sqlParameters, Mapper.GetOrder);
         }
@@ -52,6 +72,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Update(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             var sqlParameters = GetSqlParametersFromOrder(order, true);
             this.executer.GetNothing(
                 "UPDATE [dbo].[Orders] SET Status = @Status, CreadteDate = @CreadteDate, UpdateDate = @UpdateDate, ProductId = @ProductId WHERE Id = @Id",

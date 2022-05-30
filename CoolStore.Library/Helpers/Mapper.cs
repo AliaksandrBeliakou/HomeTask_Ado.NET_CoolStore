@@ -45,11 +45,21 @@ namespace CoolStore.Library.Helpers
 
         public static Product ToModel(this CoolStore.Library.SqlData.EntityFramework.Models.Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             return new Product(product.Id, product.Name, product.Description, product.Weight, product.Height, product.Width, product.Length);
         }
 
         public static CoolStore.Library.SqlData.EntityFramework.Models.Product ToEntity(this Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             return new CoolStore.Library.SqlData.EntityFramework.Models.Product
             {
                 Id = product.Id, 
@@ -64,11 +74,21 @@ namespace CoolStore.Library.Helpers
 
         public static Order ToModel(this CoolStore.Library.SqlData.EntityFramework.Models.Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             return new Order(order.Id, Enum.Parse<OrderStatus>(order.Status), order.CreateDate, order.UpdateDate, order.ProductId);
         }
 
         public static CoolStore.Library.SqlData.EntityFramework.Models.Order ToEntity(this Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             return new CoolStore.Library.SqlData.EntityFramework.Models.Order
             {
                 Id = order.Id,

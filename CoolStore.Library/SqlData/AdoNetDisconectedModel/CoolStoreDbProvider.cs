@@ -15,6 +15,11 @@ namespace CoolStore.Library.SqlData.AdoNetDisconectedModel
 
         public void Fill(CoolStoreDataSet dataset)
         {
+            if (dataset is null)
+            {
+                throw new ArgumentNullException(nameof(dataset));
+            }
+
             using (var connection = new SqlConnection(connectionString))
             {
                 var adapterManager = new TableAdapterManager();
@@ -27,6 +32,11 @@ namespace CoolStore.Library.SqlData.AdoNetDisconectedModel
 
         public void Update(CoolStoreDataSet.OrdersDataTable table)
         {
+            if (table is null)
+            {
+                throw new ArgumentNullException(nameof(table));
+            }
+
             using (var connection = new SqlConnection(connectionString))
             {
                 var adapter = new OrdersTableAdapter { Connection = connection };
@@ -36,6 +46,11 @@ namespace CoolStore.Library.SqlData.AdoNetDisconectedModel
 
         public void Update(CoolStoreDataSet.ProductsDataTable table)
         {
+            if (table is null)
+            {
+                throw new ArgumentNullException(nameof(table));
+            }
+
             using (var connection = new SqlConnection(connectionString))
             {
                 var adapter = new ProductsTableAdapter { Connection = connection };

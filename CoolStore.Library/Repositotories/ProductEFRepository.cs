@@ -16,12 +16,22 @@ namespace CoolStore.Library.Repositotories
 
         public void Create(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             context.Products.Add(product.ToEntity());
             context.SaveChanges();
         }
 
         public void Delete(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             var itemForDeletion = context.Products.Single(x => x.Id == product.Id);
             context.Products.Remove(itemForDeletion);
             context.SaveChanges();
@@ -39,6 +49,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Update(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             var oldProduct = context.Products.Single(prop => prop.Id == product.Id);
             oldProduct.Name = product.Name;
             oldProduct.Description = product.Description;

@@ -20,12 +20,22 @@ namespace CoolStore.Library.Repositotories
 
         public void Create(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             this.dataset.Products.AddProductsRow(product.Name, product.Description, product.Weight, product.Height, product.Width, product.Length);
             SaveChangesToDatabase();
         }
 
         public void Delete(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             this.dataset.Products.FindById(product.Id)?.Delete();
             SaveChangesToDatabase();
         }
@@ -44,6 +54,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Update(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             var productDataRow = dataset.Products.FindById(product.Id) ?? throw new ArgumentOutOfRangeException($"Priduct with id equal to {product.Id} is not exist");
             productDataRow.Name = product.Name;
             productDataRow.Description = product.Description;

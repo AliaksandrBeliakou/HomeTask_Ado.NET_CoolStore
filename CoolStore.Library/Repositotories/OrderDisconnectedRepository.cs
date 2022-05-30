@@ -20,19 +20,34 @@ namespace CoolStore.Library.Repositotories
 
         public void Create(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             this.dataset.Orders.AddOrdersRow(order.Status.ToString(), order.CreateDate, order.UpdateDate, this.dataset.Products.FindById(order.ProductId));
             SaveChangesToDatabase();
         }
 
         public void Delete(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             this.dataset.Orders.FindById(order.Id)?.Delete();
             SaveChangesToDatabase();
         }
 
         public void Delete(OrderFilterModel filter)
         {
-            foreach(var row in GetFilteredRows(filter))
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            foreach (var row in GetFilteredRows(filter))
             {
                 row.Delete();
             }
@@ -41,6 +56,11 @@ namespace CoolStore.Library.Repositotories
 
         public IEnumerable<Order> Find(OrderFilterModel filter)
         {
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return GetFilteredRows(filter)
                 .Select(r => new Order(r.Id, Enum.Parse<OrderStatus>(r.Status, true), r.CreateDate, r.UpdateDate, r.ProductId));
         }
@@ -53,6 +73,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Update(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             var orderDataRow = dataset.Orders.FindById(order.Id) ?? throw new ArgumentOutOfRangeException($"Order with id equal to {order.Id} is not exist");
             orderDataRow.Status = order.Status.ToString();
             orderDataRow.CreateDate = order.CreateDate;

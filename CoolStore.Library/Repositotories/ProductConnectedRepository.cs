@@ -21,12 +21,22 @@ namespace CoolStore.Library.Repositotories
 
         public void Create(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             var sqlParameters = GetSqlParametersFromProduct(product, false);
             this.executer.GetNothing("INSERT INTO [dbo].[Products] VALUES(@Name, @Description, @Weight, @Height, @Width, @Length)", CommandType.Text, sqlParameters);
         }
 
         public void Delete(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             var parameters = new List<SqlParameter> { new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = product.Id }};
             this.executer.GetNothing("DELETE FROM [dbo].[Products] WHERE Id = @Id", CommandType.Text, parameters);
         }
@@ -44,6 +54,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Update(Product product)
         {
+            if (product is null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             var sqlParameters = GetSqlParametersFromProduct(product, true);
             this.executer.GetNothing("UPDATE [dbo].[Products] SET Name = @Name, Description = @Description, Weight = @Weight, Height = @Height, Width = @Width, Length = @Length WHERE Id = @Id", CommandType.Text, sqlParameters);
         }

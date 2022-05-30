@@ -18,6 +18,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Create(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             using var connection = connectionBuilder.Build();
             connection.Open();
             connection.Execute("INSERT INTO [dbo].[Orders] VALUES(@Status, @CreateDate, @UpdateDate, @ProductId)",
@@ -26,6 +31,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Delete(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             using var connection = connectionBuilder.Build();
             connection.Open();
             connection.Execute("DELETE FROM [dbo].[Orders] WHERE Id = @Id", new { order.Id });
@@ -33,6 +43,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Delete(OrderFilterModel filter)
         {
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             using var connection = connectionBuilder.Build();
             connection.Open();
             connection.Execute(
@@ -43,6 +58,11 @@ namespace CoolStore.Library.Repositotories
 
         public IEnumerable<Order> Find(OrderFilterModel filter)
         {
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             using var connection = connectionBuilder.Build();
             connection.Open();
             return connection.Query<Order>(
@@ -60,6 +80,11 @@ namespace CoolStore.Library.Repositotories
 
         public void Update(Order order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             using var connection = connectionBuilder.Build();
             connection.Open();
             connection.Execute("UPDATE [dbo].[Orders] SET Status = @Status, CreadteDate = @CreadteDate, UpdateDate = @UpdateDate, ProductId = @ProductId WHERE Id = @Id",
