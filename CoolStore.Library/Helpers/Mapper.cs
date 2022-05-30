@@ -42,5 +42,41 @@ namespace CoolStore.Library.Helpers
                 reader.GetDateTime(3),
                 reader.GetInt32(4));
         }
+
+        public static Product ToModel(this CoolStore.Library.SqlData.EntityFramework.Models.Product product)
+        {
+            return new Product(product.Id, product.Name, product.Description, product.Weight, product.Height, product.Width, product.Length);
+        }
+
+        public static CoolStore.Library.SqlData.EntityFramework.Models.Product ToEntity(this Product product)
+        {
+            return new CoolStore.Library.SqlData.EntityFramework.Models.Product
+            {
+                Id = product.Id, 
+                Name = product.Name, 
+                Description = product.Description, 
+                Weight = product.Weight, 
+                Height = product.Height, 
+                Width = product.Width, 
+                Length = product.Length
+            };
+        }
+
+        public static Order ToModel(this CoolStore.Library.SqlData.EntityFramework.Models.Order order)
+        {
+            return new Order(order.Id, Enum.Parse<OrderStatus>(order.Status), order.CreateDate, order.UpdateDate, order.ProductId);
+        }
+
+        public static CoolStore.Library.SqlData.EntityFramework.Models.Order ToEntity(this Order order)
+        {
+            return new CoolStore.Library.SqlData.EntityFramework.Models.Order
+            {
+                Id = order.Id,
+                Status = order.Status.ToString(),
+                CreateDate = order.CreateDate,
+                UpdateDate = order.UpdateDate,
+                ProductId = order.ProductId
+            };
+        }
     }
 }
