@@ -62,7 +62,7 @@ namespace CoolStore.Library.UTests
                 new SqlParameter { ParameterName = "@Length", SqlDbType = SqlDbType.Int, Value = StabBuilder.Product1.Length },
             };
             // Act
-            repo.Create(StabBuilder.Product1);
+            repo.Add(StabBuilder.Product1);
             // Assert
             mockCommand.Verify(m => m.ExecuteNonQuery(), Times.Once);
             mockBuilder.Verify(

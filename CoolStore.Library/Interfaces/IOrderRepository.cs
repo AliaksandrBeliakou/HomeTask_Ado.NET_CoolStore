@@ -4,7 +4,7 @@ namespace ADO.NET.Fundamentals.Store.Library.Domain.Interfaces
 {
     public interface IOrderRepository
     {
-        void Create(Order order);
+        void Add(Order order);
         Order GetById(int id);
         void Update(Order order);
         IEnumerable<Order> Find(OrderFilterModel filter);

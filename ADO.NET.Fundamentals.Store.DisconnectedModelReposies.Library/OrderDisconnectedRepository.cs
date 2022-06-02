@@ -18,7 +18,7 @@ namespace ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library
             this.provider = provider ?? throw new ArgumentNullException(nameof(provider));           
         }
 
-        public void Create(Order order)
+        public void Add(Order order)
         {
             if (order is null)
             {

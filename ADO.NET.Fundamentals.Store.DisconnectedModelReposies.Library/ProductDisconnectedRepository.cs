@@ -18,7 +18,7 @@ namespace ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library
             this.dataset = dataset ?? throw new ArgumentNullException(nameof(dataset));
         }
 
-        public void Create(Product product)
+        public void Add(Product product)
         {
             if (product is null)
             {

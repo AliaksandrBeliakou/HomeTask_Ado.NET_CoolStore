@@ -48,7 +48,7 @@ namespace ADO.NET.Fundamentals.Store.Library.UTests
                 new SqlParameter { ParameterName = "@ProductId", SqlDbType = SqlDbType.Int, Value = StabBuilder.Order1.ProductId },
             };
             // Act
-            repo.Create(StabBuilder.Order1);
+            repo.Add(StabBuilder.Order1);
             // Assert
             mockCommand.Verify(m => m.ExecuteNonQuery(), Times.Once);
             mockBuilder.Verify(

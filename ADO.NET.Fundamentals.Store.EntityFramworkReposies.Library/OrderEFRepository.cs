@@ -14,7 +14,7 @@ namespace ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Create(Order order)
+        public void Add(Order order)
         {
             if (order is null)
             {
@@ -84,12 +84,12 @@ namespace ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library
 
         private IEnumerable<OrderEntity> FindEntities(OrderFilterModel filter)
         {
-            var filterExprettion = buildFilterTree(filter);
-            if(filterExprettion == null)
+            if (!filter.Year.HasValue || !filter.Month.HasValue || !filter.Status.HasValue || !filter.ProductId.HasValue)
             {
                 return context.Orders;
             }
 
+            var filterExprettion = buildFilterTree(filter);
             return context.Orders.Where(filterExprettion);
             //return context.Orders.Where(r =>
             //    (filter.Year == null || r.CreateDate.Year == filter.Year || r.UpdateDate.Year == filter.Year)
@@ -98,12 +98,11 @@ namespace ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library
             //    && (filter.ProductId == null || r.ProductId == filter.ProductId));
         }
 
-        private Expression<Func<OrderEntity, bool>>? buildFilterTree(OrderFilterModel filter)
+        private Expression<Func<OrderEntity, bool>> buildFilterTree(OrderFilterModel filter)
         {
             Expression? result = null;
             var innerParameter = Expression.Parameter(typeof(OrderEntity), "y");
 
-            var expressions = new List<Expression<Func<OrderEntity, bool>>>();
             if (filter.Year.HasValue)
             {
                 var yearConstant = Expression.Constant(filter.Year, typeof(int));
@@ -136,7 +135,10 @@ namespace ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library
             }
 
             if(result == null)
-                return null;
+            {
+                throw new InvalidDataException(nameof(result));
+            }
+
             return Expression.Lambda<Func<OrderEntity, bool>>(result, innerParameter);
         }
     }

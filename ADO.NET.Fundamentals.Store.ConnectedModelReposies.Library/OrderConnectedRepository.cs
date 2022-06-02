@@ -18,7 +18,7 @@ namespace ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library
                 factory ?? throw new ArgumentNullException(nameof(factory)));
         }
 
-        public void Create(Order order)
+        public void Add(Order order)
         {
             if(order is null)
             {

@@ -12,7 +12,7 @@ namespace ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Create(Product product)
+        public void Add(Product product)
         {
             if (product is null)
             {

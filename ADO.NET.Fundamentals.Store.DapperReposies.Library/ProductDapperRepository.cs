@@ -14,7 +14,7 @@ namespace ADO.NET.Fundamentals.Store.DapperReposies.Library
             this.connectionBuilder = connectionBuilder ?? throw new ArgumentNullException(nameof(connectionBuilder));
         }
 
-        public void Create(Product product)
+        public void Add(Product product)
         {
             if (product is null)
             {

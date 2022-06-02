@@ -53,7 +53,7 @@ namespace CoolStore.Library.UTests
             var repo = new ProductDisconnectedRepository(dataset, mockProvide.Object);
 
             // Act
-            repo.Create(StabBuilder.Product1);
+            repo.Add(StabBuilder.Product1);
             // Assert
             mockProvide.Verify(m => m.Update(dataset.Products), Times.Once);
             dataset.Products.Count.Should().Be(count + 1);

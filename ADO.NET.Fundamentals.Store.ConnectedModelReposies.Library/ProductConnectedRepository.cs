@@ -18,7 +18,7 @@ public class ProductConnectedRepository : IProductRepository
             factory ?? throw new ArgumentNullException(nameof(factory)));
     }
 
-    public void Create(Product product)
+    public void Add(Product product)
     {
         if (product is null)
         {

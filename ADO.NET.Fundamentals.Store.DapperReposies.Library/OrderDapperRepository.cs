@@ -16,7 +16,7 @@ namespace ADO.NET.Fundamentals.Store.DapperReposies.Library
             this.connectionBuilder = connectionBuilder ?? throw new ArgumentNullException(nameof(connectionBuilder));
         }
 
-        public void Create(Order order)
+        public void Add(Order order)
         {
             if (order is null)
             {
