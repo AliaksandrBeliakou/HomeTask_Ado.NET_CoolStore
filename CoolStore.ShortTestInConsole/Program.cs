@@ -11,9 +11,9 @@ namespace ADO.NET.Fundamentals.Store.Console
 
         public static void Main()
         {
-            //var builder = new EFRepositoryBuilder(connectionString);
+            var builder = new EFRepositoryBuilder(connectionString);
             //var builder = new DapperRepositoryBuilder(connectionString);
-            var builder = new DisconnectedAdoNetModelRepositoryBuilder(connectionString);
+            //var builder = new DisconnectedAdoNetModelRepositoryBuilder(connectionString);
 
             IProductRepository productRepo = builder.BuiltProductRepository();
             //productRepo.Delete(new Product(2002, "3", "34", 22, 12, 12, 12));
@@ -22,7 +22,7 @@ namespace ADO.NET.Fundamentals.Store.Console
             Commands.PrintList(productList, "All products");
             var product = productRepo.GetById(1);
             Commands.PrintItem(product, "One product");
-            var newP = new Product(product.Id, "ksjhdflksajdfh", "akldjhflkawdjf", 1000, 1000, 1000, 1000);
+            var newP = new Product(product.Id, new string(product.Name.Reverse().ToArray()), "akldjhflkawdjf", 1000, 1000, 1000, 1000);
             productRepo.Update(newP);
             Commands.PrintItem(productRepo.GetById(1).ToString(), "Updated product");
 
@@ -32,7 +32,7 @@ namespace ADO.NET.Fundamentals.Store.Console
             IOrderRepository orderRepo = builder.BuildOrderRepository();
             orderRepo.Delete(new OrderFilterModel(null, null, null, 3));
 
-            var orderList = orderRepo.Find(new OrderFilterModel(null, null, null, null));
+            var orderList = orderRepo.Find(new OrderFilterModel(null, 2, null, 2));
             Commands.PrintList(orderList, "All orders");
             Commands.PrintItem(orderRepo.GetById(5), "One order");
 
