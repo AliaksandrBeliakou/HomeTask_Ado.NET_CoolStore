@@ -5,7 +5,7 @@ using ADO.NET.Fundamentals.Store.Library.Domain.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library.Repositotories
+namespace ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library
 {
     public class OrderConnectedRepository : IOrderRepository
     {

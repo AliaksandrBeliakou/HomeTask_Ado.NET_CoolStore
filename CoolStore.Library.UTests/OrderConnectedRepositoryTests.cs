@@ -1,4 +1,4 @@
-﻿using ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library.Repositotories;
+﻿using ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library;
 using ADO.NET.Fundamentals.Store.Library.Domain.DataTransferObjects;
 using System.Data;
 using System.Data.SqlClient;

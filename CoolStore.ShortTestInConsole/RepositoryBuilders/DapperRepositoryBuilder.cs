@@ -1,30 +1,31 @@
 ﻿using ADO.NET.Fundamentals.Store.Console.RepositoryBuilders.Interfaces;
-using ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library;
+using ADO.NET.Fundamentals.Store.DapperReposies.Library;
+using ADO.NET.Fundamentals.Store.DapperReposies.Library.Interfaces;
 using ADO.NET.Fundamentals.Store.Library.Domain.Interfaces;
 
 namespace ADO.NET.Fundamentals.Store.Console.RepositoryBuilders
 {
-    internal class EFRepositoryBuilder : IRepositotyBuilder
+    internal class DapperRepositoryBuilder: IRepositotyBuilder
     {
-        private readonly CoolStoreContext context;
+        private readonly IConnectionBuilder connectionBuilder;
 
-        public EFRepositoryBuilder(string connectionString)
+        public DapperRepositoryBuilder(string connectionString)
         {
             if (connectionString == null)
             {
                 throw new ArgumentNullException(nameof(connectionString));
             }
 
-            context = new CoolStoreContext(connectionString);
+            connectionBuilder = new ConnectionBuilder(connectionString);
         }
         public IOrderRepository BuildOrderRepository()
         {
-            return new OrderEFRepository(context);
+            return new OrderDapperRepository(connectionBuilder);
         }
 
         public IProductRepository BuiltProductRepository()
         {
-            return new ProductEFRepository(context);
+            return new ProductDapperRepository(connectionBuilder);
         }
     }
 }
