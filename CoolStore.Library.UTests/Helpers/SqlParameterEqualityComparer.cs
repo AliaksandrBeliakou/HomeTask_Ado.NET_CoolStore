@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
-namespace CoolStore.Library.UTests.Helpers
+namespace ADO.NET.Fundamentals.Store.Library.UTests.Helpers
 {
     public class SqlParameterEqualityComparer : EqualityComparer<IEnumerable<IDbDataParameter>>
     {

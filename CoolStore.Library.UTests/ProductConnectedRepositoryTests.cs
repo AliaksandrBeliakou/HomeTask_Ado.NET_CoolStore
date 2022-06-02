@@ -1,4 +1,4 @@
-﻿using CoolStore.Library.Repositotories;
+﻿using ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library;
 using System.Data;
 using System.Data.SqlClient;
 

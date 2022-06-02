@@ -1,10 +1,8 @@
-﻿using CoolStore.Library.SqlData.AdoNetDisconectedModel;
-using CoolStore.Library.SqlData.AdoNetDisconectedModel.Interfaces;
-using CoolStore.Library.SqlData.Interfaces;
+﻿using ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library.Interfaces;
+using ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library.Interfaces;
 using System.Data;
-using System.Data.SqlClient;
 
-namespace CoolStore.Library.UTests.Helpers
+namespace ADO.NET.Fundamentals.Store.Library.UTests.Helpers
 {
     internal static class MockBuilder
     {
@@ -26,7 +24,7 @@ namespace CoolStore.Library.UTests.Helpers
                 moqObject.SetupSequence(m => m.Read()).Returns(true).Returns(false);
                 moqObject.Setup(m => m.GetInt32(0)).Returns(StabBuilder.Product1.Id);
                 moqObject.Setup(m => m.GetString(1)).Returns(StabBuilder.Product1.Name);
-                moqObject.Setup(m => m.GetString(2)).Returns(StabBuilder.Product1.Description);
+                moqObject.Setup(m => m.GetString(2)).Returns(StabBuilder.Product1.Description!);
                 moqObject.Setup(m => m.GetInt32(3)).Returns(StabBuilder.Product1.Weight);
                 moqObject.Setup(m => m.GetInt32(4)).Returns(StabBuilder.Product1.Height);
                 moqObject.Setup(m => m.GetInt32(5)).Returns(StabBuilder.Product1.Width);
@@ -44,7 +42,7 @@ namespace CoolStore.Library.UTests.Helpers
                 moqObject.SetupSequence(m => m.Read()).Returns(true).Returns(true).Returns(true).Returns(false);
                 moqObject.SetupSequence(m => m.GetInt32(0)).Returns(StabBuilder.Product1.Id).Returns(StabBuilder.Product2.Id).Returns(StabBuilder.Product3.Id);
                 moqObject.SetupSequence(m => m.GetString(1)).Returns(StabBuilder.Product1.Name).Returns(StabBuilder.Product2.Name).Returns(StabBuilder.Product3.Name);
-                moqObject.SetupSequence(m => m.GetString(2)).Returns(StabBuilder.Product1.Description).Returns(StabBuilder.Product2.Description).Returns(StabBuilder.Product3.Description);
+                moqObject.SetupSequence(m => m.GetString(2)).Returns(StabBuilder.Product1.Description!).Returns(StabBuilder.Product2.Description!).Returns(StabBuilder.Product3.Description!);
                 moqObject.SetupSequence(m => m.GetInt32(3)).Returns(StabBuilder.Product1.Weight).Returns(StabBuilder.Product2.Weight).Returns(StabBuilder.Product3.Weight);
                 moqObject.SetupSequence(m => m.GetInt32(4)).Returns(StabBuilder.Product1.Height).Returns(StabBuilder.Product2.Height).Returns(StabBuilder.Product3.Height);
                 moqObject.SetupSequence(m => m.GetInt32(5)).Returns(StabBuilder.Product1.Width).Returns(StabBuilder.Product2.Width).Returns(StabBuilder.Product3.Width);

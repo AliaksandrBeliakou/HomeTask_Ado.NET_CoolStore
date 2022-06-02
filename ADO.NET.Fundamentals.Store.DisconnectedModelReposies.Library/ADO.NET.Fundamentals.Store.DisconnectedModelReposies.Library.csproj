@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoolStore.Library\ADO.NET.Fundamentals.Store.Library.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="AdoNetDisconectedModel\CoolStoreDataSet.Designer.cs">
+      <DependentUpon>CoolStoreDataSet.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AdoNetDisconectedModel\CoolStoreDataSet.xsd">
+      <SubType>Designer</SubType>
+      <LastGenOutput>CoolStoreDataSet.Designer.cs</LastGenOutput>
+      <Generator>MSDataSetGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+</Project>

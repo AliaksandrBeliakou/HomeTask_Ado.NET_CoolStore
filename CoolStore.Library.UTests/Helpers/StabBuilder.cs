@@ -1,7 +1,7 @@
-﻿using CoolStore.Library.Models;
-using CoolStore.Library.SqlData.AdoNetDisconectedModel;
+﻿using ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library.AdoNetDisconectedModel;
+using ADO.NET.Fundamentals.Store.Library.Domain.DataTransferObjects;
 
-namespace CoolStore.Library.UTests.Helpers
+namespace ADO.NET.Fundamentals.Store.Library.UTests.Helpers
 {
     public static class StabBuilder
     {

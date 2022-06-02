@@ -1,9 +1,9 @@
-﻿using CoolStore.Library.Models;
-using CoolStore.Library.Repositotories;
+﻿using ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library.Repositotories;
+using ADO.NET.Fundamentals.Store.Library.Domain.DataTransferObjects;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace CoolStore.Library.UTests
+namespace ADO.NET.Fundamentals.Store.Library.UTests
 {
     [TestFixture]
     public partial class OrderConnectedRepositoryTests

@@ -1,14 +1,12 @@
-﻿using CoolStore.Library.Models;
-using CoolStore.Library.Repositotories;
+﻿using ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library;
+using ADO.NET.Fundamentals.Store.Library.Domain.DataTransferObjects;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace CoolStore.Library.UTests
 {
     [TestFixture]
     public class ProductDisconnectedRepositoryTests
     {
-        private readonly static SqlParameterEqualityComparer sqlParameterEqualityComparer = new();
         [Test]
         public void GetById_VeryBigId_DataException()
         {
