@@ -55,7 +55,7 @@ namespace ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library
             var oldProduct = context.Products.Single(prop => prop.Id == product.Id);
             oldProduct.Name = product.Name;
             oldProduct.Description = product.Description;
-            oldProduct.Weight = 1000;
+            oldProduct.Weight = product.Weight;
             oldProduct.Height = product.Height;
             oldProduct.Width = product.Width;
             oldProduct.Length = product.Length;
