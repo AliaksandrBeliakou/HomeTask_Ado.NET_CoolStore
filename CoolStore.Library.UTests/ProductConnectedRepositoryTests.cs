@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace CoolStore.Library.UTests
+namespace ADO.NET.Fundamentals.Store.Library.UTests
 {
     [TestFixture]
     public class ProductConnectedRepositoryTests

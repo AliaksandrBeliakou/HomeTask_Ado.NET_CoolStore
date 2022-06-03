@@ -22,10 +22,12 @@ namespace ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library
             }
 
             using var connection = new SqlConnection(connectionString);
-            var adapterManager = new TableAdapterManager();
-            adapterManager.ProductsTableAdapter = new ProductsTableAdapter { Connection = connection };
+            var adapterManager = new TableAdapterManager
+            {
+                ProductsTableAdapter = new ProductsTableAdapter { Connection = connection },
+                OrdersTableAdapter = new OrdersTableAdapter { Connection = connection },
+            };
             adapterManager.ProductsTableAdapter.Fill(dataset.Products);
-            adapterManager.OrdersTableAdapter = new OrdersTableAdapter { Connection = connection };
             adapterManager.OrdersTableAdapter.Fill(dataset.Orders);
         }
 

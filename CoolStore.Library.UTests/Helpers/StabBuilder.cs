@@ -1,5 +1,6 @@
 ﻿using ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library.AdoNetDisconectedModel;
 using ADO.NET.Fundamentals.Store.Library.Domain.DataTransferObjects;
+using static ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library.AdoNetDisconectedModel.CoolStoreDataSet;
 
 namespace ADO.NET.Fundamentals.Store.Library.UTests.Helpers
 {
@@ -24,10 +25,12 @@ namespace ADO.NET.Fundamentals.Store.Library.UTests.Helpers
             get
             {
                 var dataset = new CoolStoreDataSet();
-                dataset.Products.AddProductsRow(Product1.Name, Product1.Description, Product1.Weight, Product1.Height, Product1.Width, Product1.Length);
-                dataset.Products.AddProductsRow(Product2.Name, Product2.Description, Product2.Weight, Product2.Height, Product2.Width, Product2.Length);
-                dataset.Products.AddProductsRow(Product3.Name, Product3.Description, Product3.Weight, Product3.Height, Product3.Width, Product3.Length);
-                dataset.Orders.AddOrdersRow(Order1.Status.ToString(), Order1.CreateDate, Order1.UpdateDate, dataset.Products[1]);
+                dataset.Products.Rows.Add(new object?[] { Product1.Id, Product1.Name, Product1.Description, Product1.Weight, Product1.Height, Product1.Width, Product1.Length });
+                dataset.Products.Rows.Add(new object?[] { Product2.Id, Product2.Name, Product2.Description, Product2.Weight, Product2.Height, Product2.Width, Product2.Length });
+                dataset.Products.Rows.Add(new object?[] { Product3.Id, Product3.Name, Product3.Description, Product3.Weight, Product3.Height, Product3.Width, Product3.Length });
+
+                dataset.Orders.Rows.Add(new object?[] { Order1.Id, Order1.Status, Order1.CreateDate, Order1.UpdateDate, Order1.ProductId });
+                dataset.Orders.Rows.Add(new object?[] { Order2.Id, Order2.Status, Order2.CreateDate, Order2.UpdateDate, Order2.ProductId });
                 dataset.AcceptChanges();
                 return dataset;
             }

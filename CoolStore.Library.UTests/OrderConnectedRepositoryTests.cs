@@ -112,13 +112,9 @@ namespace ADO.NET.Fundamentals.Store.Library.UTests
                 , Times.Once);
         }
 
-
-
         [Test]
         public void Find_OrderFilter_CommandCollAndOrderList()
-        { // Asset
-
-
+        { 
             // Asset
             var mockReader = MockBuilder.ReaderOfOrderList;
             var mockCommand = MockBuilder.GetCommandWithReader(mockReader.Object);
@@ -137,7 +133,6 @@ namespace ADO.NET.Fundamentals.Store.Library.UTests
                     It.Is<IEnumerable<IDbDataParameter>>(actualParams => sqlParameterEqualityComparer.Equals(actualParams, expectedParams)))
                 , Times.Once);
         }
-
 
         [Test]
         public void Delete_OrderFilter_CommandColl()

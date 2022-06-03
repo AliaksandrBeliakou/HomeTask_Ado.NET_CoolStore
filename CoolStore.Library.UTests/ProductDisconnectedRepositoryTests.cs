@@ -2,7 +2,7 @@
 using ADO.NET.Fundamentals.Store.Library.Domain.DataTransferObjects;
 using System.Data;
 
-namespace CoolStore.Library.UTests
+namespace ADO.NET.Fundamentals.Store.Library.UTests
 {
     [TestFixture]
     public class ProductDisconnectedRepositoryTests
@@ -20,7 +20,6 @@ namespace CoolStore.Library.UTests
         [Test]
         public void GetById_First_CorrectData()
         {
-            // TODO: Howto mock??? Withoput updating id is equal to -1;
             // Asset
             var mockProvide = MockBuilder.CoolStoreDbProvider;
             var repo = new ProductDisconnectedRepository(StabBuilder.CoolStoreDataSet, mockProvide.Object);
@@ -65,14 +64,13 @@ namespace CoolStore.Library.UTests
             // Asset
             var mockProvide = MockBuilder.CoolStoreDbProvider;
             var dataset = StabBuilder.CoolStoreDataSet;
-            var count = dataset.Products.Count;
             var repo = new ProductDisconnectedRepository(dataset, mockProvide.Object);
             var itemForChange = dataset.Products.Select(x => new Product(x.Id, "BigComputer", x.Description, x.Weight, x.Height, x.Width, x.Length)).Last();
             // Act
             repo.Update(itemForChange);
             // Assert
             mockProvide.Verify(m => m.Update(dataset.Products), Times.Once);
-            dataset.Products.Count.Should().Be(count);
+            dataset.Products[2].RowState.Should().Be(DataRowState.Modified);
         }
 
         [Test]
@@ -83,15 +81,11 @@ namespace CoolStore.Library.UTests
             var dataset = StabBuilder.CoolStoreDataSet;
             var repo = new ProductDisconnectedRepository(dataset, mockProvide.Object);
             var itemForDeletion = dataset.Products.Select(x => new Product(x.Id, x.Name, x.Description, x.Weight, x.Height, x.Width, x.Length)).Last();
-            var count = dataset.Products.Count;
             // Act
             repo.Delete(itemForDeletion);
             // Assert
             mockProvide.Verify(m => m.Update(dataset.Products), Times.Once);
-            // TODO: Doesn't work cause item isn't exist here
-            dataset.Products.FindById(itemForDeletion.Id).RowState.Should().Be(DataRowState.Deleted);
-            // TODO: Count stay as before deletion ???? WTF
-            dataset.Products.Count.Should().Be(count - 1);
+            dataset.Products[2].RowState.Should().Be(DataRowState.Deleted);
         }
     }
 }

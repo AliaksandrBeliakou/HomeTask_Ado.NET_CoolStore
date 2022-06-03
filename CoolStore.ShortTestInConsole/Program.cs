@@ -7,13 +7,14 @@ namespace ADO.NET.Fundamentals.Store.Console
 
     public static class Programm
     {
-        private static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Database=CoolStore;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False";
+        private static readonly string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Database=CoolStore;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False";
 
         public static void Main()
         {
-            var builder = new EFRepositoryBuilder(connectionString);
+            //var builder = new EFRepositoryBuilder(connectionString);
             //var builder = new DapperRepositoryBuilder(connectionString);
             //var builder = new DisconnectedAdoNetModelRepositoryBuilder(connectionString);
+            var builder = new ConnectedAdoNetModelRepositoryBuilder(connectionString);
 
             IProductRepository productRepo = builder.BuiltProductRepository();
             //productRepo.Delete(new Product(2002, "3", "34", 22, 12, 12, 12));
@@ -22,8 +23,8 @@ namespace ADO.NET.Fundamentals.Store.Console
             Commands.PrintList(productList, "All products");
             var product = productRepo.GetById(1);
             Commands.PrintItem(product, "One product");
-            var newP = new Product(product.Id, new string(product.Name.Reverse().ToArray()), "akldjhflkawdjf", 1000, 1000, 1000, 1000);
-            productRepo.Update(newP);
+            var newProduct = new Product(product.Id, new string(product.Name.Reverse().ToArray()), "akldjhflkawdjf", 1000, 1000, 1000, 1000);
+            productRepo.Update(newProduct);
             Commands.PrintItem(productRepo.GetById(1).ToString(), "Updated product");
 
             //productRepo.Create(new Product(0, "2", null, 12, 12, 12, 12));
@@ -39,8 +40,6 @@ namespace ADO.NET.Fundamentals.Store.Console
             //orderRepo.Create(new Order(0, OrderStatus.Loading, new DateTime(1999, 1, 1), new DateTime(2021, 1, 1), 3));
             //orderRepo.Update(new Order(1003, OrderStatus.Loading, new DateTime(1999, 1, 1), new DateTime(2021, 1, 1), 3));
             //orderRepo.Delete(new Order(1003, OrderStatus.Loading, new DateTime(1999, 1, 1), new DateTime(2021, 1, 1), 3));
-
-
         }
     }
 }
