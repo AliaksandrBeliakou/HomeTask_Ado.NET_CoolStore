@@ -58,7 +58,7 @@ namespace ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library
 
         public IEnumerable<TEntity> GetList<TEntity>(string sqlCommand, CommandType commandType, IEnumerable<SqlParameter>? sqlParametersparams, Func<IDataReader, TEntity> map)
         {
-            if(sqlCommand is null)
+            if (sqlCommand is null)
             {
                 throw new ArgumentNullException(nameof(sqlCommand));
             }

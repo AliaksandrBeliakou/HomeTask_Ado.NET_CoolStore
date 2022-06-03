@@ -36,7 +36,7 @@ public class ProductConnectedRepository : IProductRepository
             throw new ArgumentNullException(nameof(product));
         }
 
-        var parameters = new List<SqlParameter> { new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = product.Id }};
+        var parameters = new List<SqlParameter> { new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.Int, Value = product.Id } };
         this.executer.GetNothing("DELETE FROM [dbo].[Products] WHERE Id = @Id", CommandType.Text, parameters);
     }
 

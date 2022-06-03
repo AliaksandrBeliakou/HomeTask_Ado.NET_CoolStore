@@ -26,12 +26,12 @@ namespace ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library
 
             return new Product
             {
-                Id = product.Id, 
-                Name = product.Name, 
-                Description = product.Description, 
-                Weight = product.Weight, 
-                Height = product.Height, 
-                Width = product.Width, 
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Weight = product.Weight,
+                Height = product.Height,
+                Width = product.Width,
                 Length = product.Length
             };
         }

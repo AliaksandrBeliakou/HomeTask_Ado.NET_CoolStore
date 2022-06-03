@@ -6,7 +6,7 @@ using System.Data;
 
 namespace ADO.NET.Fundamentals.Store.DapperReposies.Library
 {
-    public class OrderDapperRepository: IOrderRepository
+    public class OrderDapperRepository : IOrderRepository
     {
         private readonly IConnectionBuilder connectionBuilder;
 
@@ -66,7 +66,7 @@ namespace ADO.NET.Fundamentals.Store.DapperReposies.Library
             using var connection = connectionBuilder.Build();
             connection.Open();
             return connection.Query<Order>(
-                "GetOrdersByFilter", 
+                "GetOrdersByFilter",
                 new { filter.Year, filter.Month, filter.Status, filter.ProductId },
                 commandType: CommandType.StoredProcedure);
         }
@@ -75,7 +75,7 @@ namespace ADO.NET.Fundamentals.Store.DapperReposies.Library
         {
             using var connection = connectionBuilder.Build();
             connection.Open();
-            return connection.QuerySingle<Order>("SELECT * FROM [dbo].[Orders] WHERE Id = @Id", new { Id = id});
+            return connection.QuerySingle<Order>("SELECT * FROM [dbo].[Orders] WHERE Id = @Id", new { Id = id });
         }
 
         public void Update(Order order)

@@ -114,7 +114,7 @@ namespace ADO.NET.Fundamentals.Store.Library.UTests
 
         [Test]
         public void Find_OrderFilter_CommandCollAndOrderList()
-        { 
+        {
             // Asset
             var mockReader = MockBuilder.ReaderOfOrderList;
             var mockCommand = MockBuilder.GetCommandWithReader(mockReader.Object);

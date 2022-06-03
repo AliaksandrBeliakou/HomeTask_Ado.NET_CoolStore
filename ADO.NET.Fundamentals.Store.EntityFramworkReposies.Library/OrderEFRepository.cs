@@ -116,7 +116,7 @@ namespace ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library
                 var monthResult = Expression.Or(
                     Expression.Equal(Expression.Property(Expression.Property(innerParameter, "CreateDate"), "Year"), monthConstant),
                     Expression.Equal(Expression.Property(Expression.Property(innerParameter, "UpdateDate"), "Year"), monthConstant));
-                result = result == null? monthResult :
+                result = result == null ? monthResult :
                     Expression.And(result, monthResult);
             }
             if (filter.Status.HasValue)
@@ -134,7 +134,7 @@ namespace ADO.NET.Fundamentals.Store.EntityFramworkReposies.Library
                     Expression.And(result, productIdResult);
             }
 
-            if(result == null)
+            if (result == null)
             {
                 throw new InvalidDataException(nameof(result));
             }

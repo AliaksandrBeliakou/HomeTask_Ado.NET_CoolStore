@@ -132,7 +132,7 @@ namespace ADO.NET.Fundamentals.Store.Library.UTests.Helpers
             }
         }
 
-        public static Mock<ICoolStoreDbProvider> CoolStoreDbProvider { get => new Mock<ICoolStoreDbProvider>(); } 
+        public static Mock<ICoolStoreDbProvider> CoolStoreDbProvider { get => new Mock<ICoolStoreDbProvider>(); }
 
     }
 }

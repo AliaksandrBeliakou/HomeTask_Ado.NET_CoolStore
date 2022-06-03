@@ -5,7 +5,7 @@ using ADO.NET.Fundamentals.Store.Library.Domain.Interfaces;
 
 namespace ADO.NET.Fundamentals.Store.Console.RepositoryBuilders
 {
-    internal class DapperRepositoryBuilder: IRepositotyBuilder
+    internal class DapperRepositoryBuilder : IRepositotyBuilder
     {
         private readonly IConnectionBuilder connectionBuilder;
 

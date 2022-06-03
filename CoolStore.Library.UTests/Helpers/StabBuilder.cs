@@ -1,6 +1,5 @@
 ﻿using ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library.AdoNetDisconectedModel;
 using ADO.NET.Fundamentals.Store.Library.Domain.DataTransferObjects;
-using static ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library.AdoNetDisconectedModel.CoolStoreDataSet;
 
 namespace ADO.NET.Fundamentals.Store.Library.UTests.Helpers
 {

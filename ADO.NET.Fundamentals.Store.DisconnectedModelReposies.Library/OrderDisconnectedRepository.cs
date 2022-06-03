@@ -14,8 +14,8 @@ namespace ADO.NET.Fundamentals.Store.DisconnectedModelReposies.Library
 
         public OrderDisconnectedRepository(CoolStoreDataSet dataset, ICoolStoreDbProvider provider)
         {
-            this.dataset = dataset ?? throw new ArgumentNullException(nameof(dataset));           
-            this.provider = provider ?? throw new ArgumentNullException(nameof(provider));           
+            this.dataset = dataset ?? throw new ArgumentNullException(nameof(dataset));
+            this.provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
 
         public void Add(Order order)

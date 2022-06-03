@@ -50,7 +50,7 @@ namespace ADO.NET.Fundamentals.Store.DapperReposies.Library
         {
             using var connection = connectionBuilder.Build();
             connection.Open();
-            return connection.QuerySingle<Product>("SELECT * FROM [dbo].[Products] WHERE Id = @Id", new {Id = id});
+            return connection.QuerySingle<Product>("SELECT * FROM [dbo].[Products] WHERE Id = @Id", new { Id = id });
         }
 
         public void Update(Product product)

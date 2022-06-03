@@ -20,13 +20,13 @@ namespace ADO.NET.Fundamentals.Store.ConnectedModelReposies.Library
 
         public void Add(Order order)
         {
-            if(order is null)
+            if (order is null)
             {
                 throw new ArgumentNullException(nameof(order));
             }
 
             var sqlParameters = GetSqlParametersFromOrder(order, false);
-            this.executer.GetNothing("INSERT INTO [dbo].[Orders] VALUES(@Status, @CreateDate, @UpdateDate, @ProductId)", 
+            this.executer.GetNothing("INSERT INTO [dbo].[Orders] VALUES(@Status, @CreateDate, @UpdateDate, @ProductId)",
                 CommandType.Text, sqlParameters);
         }
 

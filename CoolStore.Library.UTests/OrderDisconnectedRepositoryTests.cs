@@ -112,7 +112,7 @@ namespace ADO.NET.Fundamentals.Store.Library.UTests
             // Act
             repo.Delete(new OrderFilterModel(null, 2021, null, null));
             // Assert
-            foreach(var order in dataset.Orders)
+            foreach (var order in dataset.Orders)
             {
                 order.RowState.Should().Be(DataRowState.Deleted);
             }
